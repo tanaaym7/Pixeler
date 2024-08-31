@@ -1,8 +1,11 @@
-import { Button } from "@/components/ui/button";
-export default function Home() {
+import { Button } from "@/components/ui/button"
+
+const page = () => {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <Button variant="default">Button</Button>
-    </main>
-  );
+    <div>
+        <Button variant="default">hello</Button>
+    </div>
+  )
 }
+
+export default page
