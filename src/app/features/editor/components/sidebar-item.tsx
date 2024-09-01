@@ -25,7 +25,7 @@ const SidebarItem = ({
         isActive && "bg-accent text-primary"
       )}
     >
-      <Icon />
+      <Icon className="shrink-0"/>
       <span>{label}</span>
     </Button>
   );

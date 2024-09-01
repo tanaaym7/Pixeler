@@ -8,6 +8,7 @@ import Sidebar from "./sidebar";
 import Toolbar from "./toolbar";
 import Footer from "./footer";
 import { ActiveTool } from "../types";
+import SubSidebar from "./sub-sidebar";
 
 const Editor = () => {
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
@@ -28,7 +29,7 @@ const Editor = () => {
     [activeTool]
   );
 
-  const { init } = useEditor();
+  const { init, editor } = useEditor();
   const canvasRef = useRef(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -55,6 +56,11 @@ const Editor = () => {
         <Sidebar
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
+        />
+        <SubSidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+          editor={editor}
         />
         <main className="flex-1 overflow-auto relative flex flex-col">
           <Toolbar />

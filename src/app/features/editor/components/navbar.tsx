@@ -32,7 +32,7 @@ interface NavbarProps {
 const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
     <nav className="flex items-center p-4 h-[68px] bg-white border-b lg:pl-[34px] shadow-md gap-x-8">
-      <Image src="/logo.png" alt="Logo" width={38} height={38} />
+      <Image src="/logo.png" alt="Logo" width={38} height={38} priority />
       <div className="w-full flex items-center gap-x-1 h-full">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
