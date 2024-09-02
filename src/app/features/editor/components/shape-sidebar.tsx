@@ -11,17 +11,17 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ShapeTool from "./shape-tool";
 
-interface SubSidebarProps {
+interface ShapeSidebarProps {
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
   editor: editorMethods | undefined;
 }
 
-const SubSidebar = ({
+const ShapeSidebar = ({
   activeTool,
   onChangeActiveTool,
   editor,
-}: SubSidebarProps) => {
+}: ShapeSidebarProps) => {
   const onClose = () => {
     onChangeActiveTool("select");
   };
@@ -60,4 +60,4 @@ const SubSidebar = ({
   );
 };
 
-export default SubSidebar;
+export default ShapeSidebar;
