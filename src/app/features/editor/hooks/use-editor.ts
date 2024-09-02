@@ -13,12 +13,14 @@ import {
   TRIANGLE_OPTIONS,
   DIAMOND_OPTIONS,
   STAR_OPTIONS,
+  EditorHookProps,
 } from "../types";
 import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType } from "../utils";
 
 const buildEditor = ({
   canvas,
+  selectedObjects,
   fillColor,
   strokeColor,
   strokeWidth,
@@ -152,19 +154,37 @@ const buildEditor = ({
 
       addToCanvas(object);
     },
+
+    getActiveFillColor: () => {
+      const activeObject = selectedObjects[0];
+      if (!activeObject) {
+        return fillColor;
+      }
+      const fillValue = activeObject.get("fill") || fillColor;
+
+      // converting rgba object to string (refer utils) so we know it will be as string
+      return fillValue as string;
+    },
+
+    getActiveStrokeColor: () => {
+      const activeObject = selectedObjects[0];
+      if (!activeObject) {
+        return strokeColor;
+      }
+      const strokeValue = activeObject.get("stroke") || strokeColor;
+      return strokeValue;
+    },
+
     canvas,
-    fillColor,
-    strokeColor,
+    selectedObjects,
     strokeWidth,
   };
 };
 
-export const useEditor = () => {
+export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
-  const [selectedObjects, setSelectedObjects] = useState<
-    fabric.Object[] | null
-  >([]);
+  const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
   const [fillColor, setFillColor] = useState<string>(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState<string>(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState<number>(STROKE_WIDTH);
@@ -177,6 +197,7 @@ export const useEditor = () => {
     canvas,
     container,
     setSelectedObjects,
+    clearSelectionCallback,
   });
 
   // editor methods
@@ -184,6 +205,7 @@ export const useEditor = () => {
     if (canvas) {
       return buildEditor({
         canvas,
+        selectedObjects,
         fillColor,
         strokeColor,
         strokeWidth,
@@ -193,7 +215,7 @@ export const useEditor = () => {
       });
     }
     return undefined;
-  }, [canvas, fillColor, strokeColor, strokeWidth]);
+  }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects]);
 
   // initialize editor
   const init = useCallback(

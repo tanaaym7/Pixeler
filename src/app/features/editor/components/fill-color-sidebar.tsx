@@ -15,7 +15,7 @@ const FillColorSidebar = ({
   onChangeActiveTool,
   editor,
 }: FillColorSidebarProps) => {
-  const value = editor?.fillColor || FILL_COLOR;
+  const value = editor?.getActiveFillColor() || FILL_COLOR;
 
   const onClose = () => {
     onChangeActiveTool("select");
@@ -25,11 +25,12 @@ const FillColorSidebar = ({
     editor?.changeFillColor(value);
   };
 
+
   return (
     <aside
       className={cn(
         "flex flex-col w-[280px] h-full border-r relative z-[40]",
-        activeTool === "fill" ? "visible" : "hidden"
+        activeTool === "fill"  ? "visible" : "hidden"
       )}
     >
       <header className="h-[62px] p-2 border-b">

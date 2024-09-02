@@ -41,6 +41,16 @@ export type ActiveTool =
   | "remove-bg"
   | "templates";
 
+export const selectionDependentTool = [
+  "fill",
+  "font",
+  "filter",
+  "opacity",
+  "remove-bg",
+  "stroke-color",
+  "stroke-width",
+];
+
 export const FILL_COLOR = "rgba(0,0,0,1)";
 export const STROKE_COLOR = "rgba(0,0,0,1)";
 export const STROKE_WIDTH = 2;
@@ -89,8 +99,14 @@ export const STAR_OPTIONS = {
   stroke: STROKE_COLOR,
   strokeWidth: STROKE_WIDTH,
 };
+
+export type EditorHookProps = {
+  clearSelectionCallback: () => void;
+};
+
 export type BuildEditorProps = {
   canvas: fabric.Canvas;
+  selectedObjects: fabric.Object[];
   fillColor: string;
   strokeColor: string;
   strokeWidth: number;
@@ -109,7 +125,8 @@ export interface editorMethods {
   addDiamond: () => void;
   addStar: () => void;
   canvas: fabric.Canvas;
-  fillColor: string;
-  strokeColor: string;
+  selectedObjects: fabric.Object[];
+  getActiveFillColor: () => string;
+  getActiveStrokeColor: () => string;
   strokeWidth: number;
 }
