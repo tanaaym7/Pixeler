@@ -106,27 +106,31 @@ export type EditorHookProps = {
 
 export type BuildEditorProps = {
   canvas: fabric.Canvas;
-  selectedObjects: fabric.Object[];
   fillColor: string;
-  strokeColor: string;
-  strokeWidth: number;
+  selectedObjects: fabric.Object[];
   setFillColor: (value: string) => void;
   setStrokeColor: (value: string) => void;
+  setStrokeDashArray: (value: number[]) => void;
   setStrokeWidth: (value: number) => void;
+  strokeColor: string;
+  strokeDashArray: number[];
+  strokeWidth: number;
 };
 
 export interface editorMethods {
-  changeFillColor: (value: string) => void;
-  changeStrokeColor: (value: string) => void;
-  changeStrokeWidth: (value: number) => void;
-  addCircle: () => void;
-  addSquare: () => void;
-  addTriangle: () => void;
-  addDiamond: () => void;
-  addStar: () => void;
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
+  addCircle: () => void;
+  addDiamond: () => void;
+  addSquare: () => void;
+  addStar: () => void;
+  addTriangle: () => void;
+  changeFillColor: (value: string) => void;
+  changeStrokeColor: (value: string) => void;
+  changeStrokeDashArray: (value: number[]) => void;
+  changeStrokeWidth: (value: number) => void;
   getActiveFillColor: () => string;
   getActiveStrokeColor: () => string;
-  strokeWidth: number;
+  getActiveStrokeDashArray: () => number[];
+  getActiveStrokeWidth: () => number;
 }

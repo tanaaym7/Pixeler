@@ -10,6 +10,8 @@ import Footer from "./footer";
 import { ActiveTool, selectionDependentTool } from "../types";
 import ShapeSidebar from "./shape-sidebar";
 import FillColorSidebar from "./fill-color-sidebar";
+import StrokeColorSidebar from "./stroke-color-sidebar";
+import StrokeWidthSidebar from "./stroke-width-sidebar";
 
 const Editor = () => {
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
@@ -31,11 +33,11 @@ const Editor = () => {
   );
 
   const onClearSelection = useCallback(() => {
-    if(selectionDependentTool.includes(activeTool)){
-      setActiveTool("select")
+    if (selectionDependentTool.includes(activeTool)) {
+      setActiveTool("select");
     }
   }, [activeTool]);
-  
+
   const { init, editor } = useEditor({
     clearSelectionCallback: onClearSelection,
   });
@@ -76,6 +78,16 @@ const Editor = () => {
           onChangeActiveTool={onChangeActiveTool}
           editor={editor}
         />
+        <StrokeColorSidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+          editor={editor}
+        />
+        <StrokeWidthSidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+          editor={editor}
+        />
         <main className="flex-1 overflow-auto relative flex flex-col">
           <Toolbar
             editor={editor}
@@ -84,7 +96,7 @@ const Editor = () => {
             key={JSON.stringify(editor?.canvas.getActiveObjects())}
           />
           <div
-            className="flex-1 bg-muted h-[calc(100%-120px)]"
+            className="flex-1 bg-[#ece9e6] h-[calc(100%-120px)]"
             ref={containerRef}
           >
             <canvas ref={canvasRef} />

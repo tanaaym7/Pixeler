@@ -31,12 +31,12 @@ interface NavbarProps {
 
 const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
-    <nav className="flex items-center p-4 h-[68px] bg-white border-b lg:pl-[34px] shadow-md gap-x-8">
+    <nav className="navbar flex items-center p-4 h-[68px] lg:pl-[34px] shadow-md gap-x-8">
       <Image src="/logo.png" alt="Logo" width={38} height={38} priority />
       <div className="w-full flex items-center gap-x-1 h-full">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="bg-transparent">
               File
               <ChevronDown className="w-4 h-4 ml-2" />
             </Button>
@@ -77,12 +77,12 @@ const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
 
         <div className="flex items-center gap-x-3">
           <HardDriveDownload className="size-5" />
-          <p className="text-sm text-muted-foreground">Saved</p>
+          <p className="text-sm font-medium text-muted-foreground">Saved</p>
         </div>
         <div className="ml-auto">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm">
+              <Button variant="syntax">
                 Export
                 <Download className="size-4 ml-4" />
               </Button>

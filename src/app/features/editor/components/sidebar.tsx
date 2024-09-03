@@ -19,7 +19,7 @@ interface SidebarProps {
 
 const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
   return (
-    <aside className="bg-white flex flex-col w-[100px] h-full border-r overflow-y-auto">
+    <aside className="sidebar flex flex-col w-[100px] h-full border-r overflow-y-auto select-none">
       <ul className="flex flex-col">
         <SidebarItem
           icon={LayoutTemplate}
@@ -64,7 +64,7 @@ const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
         />
         <SidebarItem
           icon={Sparkles}
-          label="Effect"
+          label="Ai"
           isActive={activeTool === "ai"}
           onClick={() => {
             onChangeActiveTool("ai");

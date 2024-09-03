@@ -9,6 +9,7 @@ body {
 .brd {
   border: 1px solid red;
 }
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -29,7 +30,7 @@ body {
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 210 38% 94%;
+    --accent: 211 25% 30%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -91,4 +92,46 @@ body {
   box-shadow: none !important;
   border-radius: 0.5rem !important;
   overflow: hidden !important;
+}
+
+.navbar {
+  user-select: none;
+  background: #ed4264; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #ffedbc,
+    #ed4264
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #ffedbc,
+    #ed4264
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.sidebar {
+  background: #ffffff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to bottom,
+    #eaeaea,
+    #dbdbdb,
+    #f2f2f2
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #eaeaea,
+    #dbdbdb,
+    #f2f2f2
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.toolbar {
+  background: #ece9e6;
+  border-bottom: 1px solid #d1d1d1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+.footer {
+  background: #ece9e6;
+  border-top: 1px solid #d1d1d1;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
 }

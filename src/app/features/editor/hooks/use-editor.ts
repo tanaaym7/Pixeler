@@ -1,32 +1,34 @@
 import { fabric } from "fabric";
 import { useCallback, useMemo, useState } from "react";
-import { useAutoResize } from "./use-auto-resize";
 import {
   BuildEditorProps,
   CIRCLE_OPTIONS,
+  DIAMOND_OPTIONS,
+  EditorHookProps,
   editorMethods,
   FILL_COLOR,
   SQUARE_OPTIONS,
+  STAR_OPTIONS,
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
   TRIANGLE_OPTIONS,
-  DIAMOND_OPTIONS,
-  STAR_OPTIONS,
-  EditorHookProps,
 } from "../types";
-import { useCanvasEvents } from "./use-canvas-events";
 import { isTextType } from "../utils";
+import { useAutoResize } from "./use-auto-resize";
+import { useCanvasEvents } from "./use-canvas-events";
 
 const buildEditor = ({
   canvas,
-  selectedObjects,
   fillColor,
-  strokeColor,
-  strokeWidth,
+  selectedObjects,
   setFillColor,
   setStrokeColor,
+  setStrokeDashArray,
   setStrokeWidth,
+  strokeColor,
+  strokeDashArray,
+  strokeWidth,
 }: BuildEditorProps) => {
   const shapeWidth = 300;
   const shapeHeight = 300;
@@ -76,13 +78,20 @@ const buildEditor = ({
       });
       canvas.renderAll();
     },
-
+    changeStrokeDashArray: (value: number[]) => {
+      setStrokeDashArray(value);
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ strokeDashArray: value });
+      });
+      canvas.renderAll();
+    },
     addCircle: () => {
       const object = new fabric.Circle({
         ...CIRCLE_OPTIONS,
         fill: fillColor,
         stroke: strokeColor,
         strokeWidth: strokeWidth,
+        strokeDashArray: strokeDashArray,
       });
 
       addToCanvas(object);
@@ -94,6 +103,7 @@ const buildEditor = ({
         fill: fillColor,
         stroke: strokeColor,
         strokeWidth: strokeWidth,
+        strokeDashArray: strokeDashArray,
       });
 
       addToCanvas(object);
@@ -105,6 +115,7 @@ const buildEditor = ({
         fill: fillColor,
         stroke: strokeColor,
         strokeWidth: strokeWidth,
+        strokeDashArray: strokeDashArray,
       });
 
       addToCanvas(object);
@@ -122,6 +133,7 @@ const buildEditor = ({
           fill: fillColor,
           stroke: strokeColor,
           strokeWidth: strokeWidth,
+          strokeDashArray: strokeDashArray,
         }
       );
       addToCanvas(object);
@@ -150,6 +162,7 @@ const buildEditor = ({
         fill: fillColor,
         stroke: strokeColor,
         strokeWidth: strokeWidth,
+        strokeDashArray: strokeDashArray,
       });
 
       addToCanvas(object);
@@ -162,7 +175,7 @@ const buildEditor = ({
       }
       const fillValue = activeObject.get("fill") || fillColor;
 
-      // converting rgba object to string (refer utils) so we know it will be as string
+      //we converted rgba object to string (refer utils) so we know type will be as string only
       return fillValue as string;
     },
 
@@ -175,9 +188,24 @@ const buildEditor = ({
       return strokeValue;
     },
 
+    getActiveStrokeWidth: () => {
+      const activeObject = selectedObjects[0];
+      if (!activeObject) {
+        return strokeWidth;
+      }
+      const strokeValue = activeObject.get("strokeWidth") || strokeWidth;
+      return strokeValue;
+    },
+    getActiveStrokeDashArray: () => {
+      const activeObject = selectedObjects[0];
+      if (!activeObject) {
+        return strokeDashArray;
+      }
+      const strokeValue = activeObject.get("strokeDashArray") || strokeDashArray;
+      return strokeValue;
+    },
     canvas,
     selectedObjects,
-    strokeWidth,
   };
 };
 
@@ -188,6 +216,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [fillColor, setFillColor] = useState<string>(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState<string>(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState<number>(STROKE_WIDTH);
+  const [strokeDashArray, setStrokeDashArray] =
+    useState<number[]>(STROKE_DASH_ARRAY);
 
   // auto resize canvas
   useAutoResize({ canvas, container });
@@ -209,9 +239,11 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         fillColor,
         strokeColor,
         strokeWidth,
+        strokeDashArray,
         setFillColor,
         setStrokeColor,
         setStrokeWidth,
+        setStrokeDashArray,
       });
     }
     return undefined;
