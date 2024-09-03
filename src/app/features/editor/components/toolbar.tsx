@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { FaFillDrip } from "react-icons/fa";
 import { BsBorderWidth } from "react-icons/bs";
-
+import { RiSendToBack, RiBringToFront } from "react-icons/ri";
 interface ToolbarProps {
   editor: editorMethods | undefined;
   activeTool: string;
@@ -63,9 +63,9 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
           </Button>
         </Hint>
       </div>
-      {/* Stroke width */}
+      {/* Stroke options */}
       <div className="flex justify-center items-center h-full ">
-        <Hint label="Stroke" side="bottom" sideOffset={5}>
+        <Hint label="Stroke style" side="bottom" sideOffset={5}>
           <Button
             onClick={() => onChangeActiveTool("stroke-width")}
             size="sm"
@@ -75,6 +75,29 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
             )}
           >
             <BsBorderWidth className="size-5" />
+          </Button>
+        </Hint>
+      </div>
+      {/* layer options */}
+      <div className="flex justify-center items-center h-full ">
+        <Hint label="Bring to front" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => editor?.bringForward()}
+            size="sm"
+            variant="ghost"
+          >
+            <RiBringToFront className="size-5" />
+          </Button>
+        </Hint>
+      </div>
+      <div className="flex justify-center items-center h-full ">
+        <Hint label="Send to back" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => editor?.sendBackward()}
+            size="sm"
+            variant="ghost"
+          >
+            <RiSendToBack className="size-5" />
           </Button>
         </Hint>
       </div>

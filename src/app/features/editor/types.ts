@@ -125,6 +125,8 @@ export interface editorMethods {
   addSquare: () => void;
   addStar: () => void;
   addTriangle: () => void;
+  bringForward: () => void;
+  sendBackward: () => void;
   changeFillColor: (value: string) => void;
   changeStrokeColor: (value: string) => void;
   changeStrokeDashArray: (value: number[]) => void;
