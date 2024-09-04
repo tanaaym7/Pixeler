@@ -28,15 +28,13 @@ const StrokeColorSidebar = ({
   return (
     <aside
       className={cn(
-        "flex flex-col w-[280px] h-full border-r relative z-[40]",
+        "flex flex-col w-[280px] h-full border-r relative z-[40] ",
         activeTool === "stroke-color" ? "visible" : "hidden"
       )}
     >
       <header className="h-[62px] p-2 border-b">
         <p className="font-medium">Stroke color</p>
-        <p className="text-sm text-muted-foreground">
-          Change the stroke color 
-        </p>
+        <p className="text-sm text-muted-foreground">Change the stroke color</p>
       </header>
 
       <ScrollArea className="flex-1">

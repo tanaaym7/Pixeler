@@ -12,6 +12,7 @@ import {
   STROKE_COLOR,
   STROKE_DASH_ARRAY,
   STROKE_WIDTH,
+  TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from "../types";
 import { isTextType } from "../utils";
@@ -52,6 +53,23 @@ const buildEditor = ({
   };
 
   return {
+    addText: (value, options) => {
+      const object = new fabric.Textbox(value, {
+        ...TEXT_OPTIONS,
+        fill: fillColor,
+        ...options,
+      });
+      addToCanvas(object);
+    },
+
+    changeFont: (value: string) => {
+      canvas.getActiveObjects().forEach((object) => {
+        //@ts-ignore
+        object.set({ fontFamily: value });
+      });
+      canvas.renderAll();
+    },
+
     bringForward: () => {
       canvas.getActiveObjects().forEach((object) => {
         canvas.bringForward(object);
@@ -247,6 +265,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [container, setContainer] = useState<HTMLDivElement | null>(null);
   const [selectedObjects, setSelectedObjects] = useState<fabric.Object[]>([]);
+  const [currentFont, setCurrentFont] = useState<string>("Arial");
   const [fillColor, setFillColor] = useState<string>(FILL_COLOR);
   const [strokeColor, setStrokeColor] = useState<string>(STROKE_COLOR);
   const [strokeWidth, setStrokeWidth] = useState<number>(STROKE_WIDTH);
@@ -274,6 +293,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         strokeColor,
         strokeWidth,
         strokeDashArray,
+        currentFont,
+        setCurrentFont,
         setFillColor,
         setStrokeColor,
         setStrokeWidth,
@@ -281,7 +302,15 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
       });
     }
     return undefined;
-  }, [canvas, fillColor, strokeColor, strokeWidth, selectedObjects]);
+  }, [
+    canvas,
+    fillColor,
+    strokeColor,
+    strokeWidth,
+    selectedObjects,
+    strokeDashArray,
+    currentFont,
+  ]);
 
   // initialize editor
   const init = useCallback(

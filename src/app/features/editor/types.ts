@@ -1,4 +1,5 @@
 import { fabric } from "fabric";
+import { ITextOptions } from "fabric/fabric-impl";
 import * as material from "material-colors";
 
 export const colors = [
@@ -22,6 +23,27 @@ export const colors = [
   material.grey["500"],
   material.blueGrey["500"],
   "transparent",
+];
+
+export const fonts = [
+  "Arial",
+  "Arial Black",
+  "Verdana",
+  "Helvetica",
+  "Tahoma",
+  "Trebuchet MS",
+  "Times New Roman",
+  "Georgia",
+  "Garamond",
+  "Courier New",
+  "Brush Script MT",
+  "Palatino",
+  "Bookman",
+  "Comic Sans MS",
+  "Impact",
+  "Lucida Sans Unicode",
+  "Geneva",
+  "Lucida Console",
 ];
 
 export type ActiveTool =
@@ -58,6 +80,15 @@ export const STROKE_DASH_ARRAY = [];
 export const FONT_FAMILY = "Arial";
 export const FONT_SIZE = 32;
 export const FONT_WEIGHT = 400;
+
+export const TEXT_OPTIONS = {
+  type: "textbox",
+  left: 100,
+  top: 100,
+  fill: FILL_COLOR,
+  fontSize: FONT_SIZE,
+  fontFamily: FONT_FAMILY,
+};
 
 export const CIRCLE_OPTIONS = {
   radius: 180,
@@ -115,11 +146,14 @@ export type BuildEditorProps = {
   strokeColor: string;
   strokeDashArray: number[];
   strokeWidth: number;
+  currentFont: string;
+  setCurrentFont: (value: string) => void;
 };
 
 export interface editorMethods {
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
+  addText: (value: string, options?: ITextOptions) => void;
   addCircle: () => void;
   addDiamond: () => void;
   addSquare: () => void;
@@ -137,4 +171,5 @@ export interface editorMethods {
   getActiveStrokeWidth: () => number;
   getActiveOpacity: () => number;
   changeOpacity: (value: number) => void;
+  changeFont: (value: string) => void;
 }

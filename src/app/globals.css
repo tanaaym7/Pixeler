@@ -93,6 +93,7 @@ body {
   box-shadow: none !important;
   border-radius: 0.5rem !important;
   overflow: hidden !important;
+  font-family: "Inter", sans-serif !important;
 }
 
 .navbar {

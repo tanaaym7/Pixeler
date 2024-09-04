@@ -27,13 +27,13 @@ const Hint = ({
       <Tooltip delayDuration={200}>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
         <TooltipContent
-          className="bg-slate-800 text-white border-0"
+          className="bg-slate-800 text-white border-0 "
           side={side}
           align={align}
           sideOffset={sideOffset}
           alignOffset={alignOffset}
         >
-          <p className="text-xs">{label}</p>
+          <p className="text-xs select-none">{label}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>

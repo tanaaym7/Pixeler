@@ -9,7 +9,7 @@ interface ColorPickerProps {
 
 const ColorPicker = ({ value, onColorChange }: ColorPickerProps) => {
   return (
-    <div>
+    <div className="select-none space-y-4">
       <ChromePicker
         color={value}
         onChange={(color) => {
