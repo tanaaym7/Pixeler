@@ -146,8 +146,8 @@ export type BuildEditorProps = {
   strokeColor: string;
   strokeDashArray: number[];
   strokeWidth: number;
-  currentFont: string;
-  setCurrentFont: (value: string) => void;
+  fontFamily: string;
+  setFontFamily: (value: string) => void;
 };
 
 export interface editorMethods {
@@ -165,11 +165,24 @@ export interface editorMethods {
   changeStrokeColor: (value: string) => void;
   changeStrokeDashArray: (value: number[]) => void;
   changeStrokeWidth: (value: number) => void;
+  changeOpacity: (value: number) => void;
+  changeFontFamily: (value: string) => void;
+  changeFontStyle: (value: string) => void;
+  changeFontStrikethrough: (value: boolean) => void;
+  changeFontSize: (value: number) => void;
+  changeFontWeight: (value: number) => void;
+  changeFontUnderline: (value: boolean) => void;
+  changeFontAlign: (value: string) => void;
   getActiveFillColor: () => string;
   getActiveStrokeColor: () => string;
   getActiveStrokeDashArray: () => number[];
   getActiveStrokeWidth: () => number;
   getActiveOpacity: () => number;
-  changeOpacity: (value: number) => void;
-  changeFont: (value: string) => void;
+  getActiveFontFamily: () => string;
+  getActiveFontWeight: () => number;
+  getActiveFontStyle: () => string;
+  getActiveFontStrikethrough: () => string;
+  getActiveFontUnderline: () => string;
+  getActiveFontAlign: () => string;
+  getActiveFontSize: () => number;
 }

@@ -1,8 +1,7 @@
-import { ActiveTool, editorMethods } from "../types";
+import { ActiveTool, editorMethods, fonts } from "../types";
 import { ChevronsRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Slider } from "@/components/ui/slider";
 import { Button } from "@/components/ui/button";
 
 interface FontSidebarProps {
@@ -20,6 +19,8 @@ const FontSidebar = ({
     onChangeActiveTool("select");
   };
 
+  const fontFamily = editor?.getActiveFontFamily();
+
   return (
     <aside
       className={cn(
@@ -29,38 +30,25 @@ const FontSidebar = ({
     >
       <header className="h-[62px] p-2 border-b">
         <p className="font-medium">Font</p>
-        <p className="text-sm text-muted-foreground">Select font style</p>
+        <p className="text-sm text-muted-foreground">Change the text font</p>
       </header>
 
       <ScrollArea>
         <div className="p-4 space-y-4 border-b">
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={() =>
-              editor?.addText("Heading", { fontSize: 78, fontWeight: 700 })
-            }
-          >
-            <span className="text-2xl font-extrabold">Heading</span>
-          </Button>
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={() =>
-              editor?.addText("Sub-heading", { fontSize: 56, fontWeight: 500 })
-            }
-          >
-            <span className="text-xl font-bold">Sub-heading</span>
-          </Button>
-          <Button
-            variant="secondary"
-            className="w-full"
-            onClick={() =>
-              editor?.addText("Paragraph", { fontSize: 44, fontWeight: 400 })
-            }
-          >
-            <span className="text-lg font-medium">Paragraph</span>
-          </Button>
+          {fonts.map((font) => (
+            <Button
+              variant="secondary"
+              className={cn(
+                "w-full text-base justify-start",
+                fontFamily === font && "border-2 border-blue-600"
+              )}
+              key={font}
+              onClick={() => editor?.changeFontFamily(font)}
+              style={{ fontFamily: font }}
+            >
+              {font}
+            </Button>
+          ))}
         </div>
       </ScrollArea>
       <button
