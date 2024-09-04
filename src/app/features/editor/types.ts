@@ -135,4 +135,6 @@ export interface editorMethods {
   getActiveStrokeColor: () => string;
   getActiveStrokeDashArray: () => number[];
   getActiveStrokeWidth: () => number;
+  getActiveOpacity: () => number;
+  changeOpacity: (value: number) => void;
 }

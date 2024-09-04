@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import { FaFillDrip } from "react-icons/fa";
 import { BsBorderWidth } from "react-icons/bs";
 import { RiSendToBack, RiBringToFront } from "react-icons/ri";
+import { RxTransparencyGrid } from "react-icons/rx";
+
 interface ToolbarProps {
   editor: editorMethods | undefined;
   activeTool: string;
@@ -98,6 +100,18 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
             variant="ghost"
           >
             <RiSendToBack className="size-5" />
+          </Button>
+        </Hint>
+      </div>
+      {/* opacity*/}
+      <div className="flex justify-center items-center h-full ">
+        <Hint label="Send to back" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => onChangeActiveTool("opacity")}
+            size="sm"
+            variant="ghost"
+          >
+            <RxTransparencyGrid className="size-5" />
           </Button>
         </Hint>
       </div>

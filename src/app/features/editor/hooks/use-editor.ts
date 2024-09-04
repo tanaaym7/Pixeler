@@ -29,7 +29,7 @@ const buildEditor = ({
   strokeColor,
   strokeDashArray,
   strokeWidth,
-}: BuildEditorProps) => {
+}: BuildEditorProps): editorMethods => {
   const shapeWidth = 300;
   const shapeHeight = 300;
 
@@ -68,6 +68,13 @@ const buildEditor = ({
       canvas.renderAll();
       const workspace = getWorkspace();
       workspace?.sendToBack();
+    },
+
+    changeOpacity: (value: number) => {
+      canvas.getActiveObjects().forEach((object) => {
+        object.set({ opacity: value });
+      });
+      canvas.renderAll();
     },
 
     changeFillColor: (value: string) => {
@@ -222,6 +229,14 @@ const buildEditor = ({
       const strokeValue =
         activeObject.get("strokeDashArray") || strokeDashArray;
       return strokeValue;
+    },
+    getActiveOpacity: () => {
+      const activeObject = selectedObjects[0];
+      if (!activeObject) {
+        return 1;
+      }
+      const opacityValue = activeObject.get("opacity") || 1;
+      return opacityValue;
     },
     canvas,
     selectedObjects,

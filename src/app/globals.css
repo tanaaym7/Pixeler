@@ -6,6 +6,7 @@ html,
 body {
   height: 100%;
 }
+
 .brd {
   border: 1px solid red;
 }
@@ -130,6 +131,7 @@ body {
   border-bottom: 1px solid #d1d1d1;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
+
 .footer {
   background: #ece9e6;
   border-top: 1px solid #d1d1d1;
