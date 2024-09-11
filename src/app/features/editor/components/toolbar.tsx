@@ -25,7 +25,7 @@ import { BsBorderWidth } from "react-icons/bs";
 import { RiSendToBack, RiBringToFront } from "react-icons/ri";
 import { RxTransparencyGrid, RxBorderAll } from "react-icons/rx";
 import { isTextType } from "../utils";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Trash2 } from "lucide-react";
 import FontSizeInput from "./font-size-input";
 
 interface ToolbarProps {
@@ -111,6 +111,26 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
   };
   return (
     <div className="toolbar h-[52px] w-full border-b shrink-0 flex items-center overflow-x-auto z-[49] p-2 gap-x-2">
+      {/* Fill color */}
+      <div className="flex justify-center items-center h-full ">
+        <Hint label="Color" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => onChangeActiveTool("fill")}
+            size="sm"
+            variant="ghost"
+            className={cn(activeTool === "fill" && "bg-accent text-primary")}
+          >
+            <div className="rounded-sm flex items-center justify-center">
+              <FaFillDrip
+                className="size-5"
+                style={{
+                  color: properties.fillColor,
+                }}
+              />
+            </div>
+          </Button>
+        </Hint>
+      </div>
       {/* stroke style */}
       {!isText && (
         <>
@@ -299,26 +319,6 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
           />
         </div>
       )}
-      {/* Fill color */}
-      <div className="flex justify-center items-center h-full ">
-        <Hint label="Color" side="bottom" sideOffset={5}>
-          <Button
-            onClick={() => onChangeActiveTool("fill")}
-            size="sm"
-            variant="ghost"
-            className={cn(activeTool === "fill" && "bg-accent text-primary")}
-          >
-            <div className="rounded-sm flex items-center justify-center">
-              <FaFillDrip
-                className="size-5"
-                style={{
-                  color: properties.fillColor,
-                }}
-              />
-            </div>
-          </Button>
-        </Hint>
-      </div>
       {/* layer options */}
       <div className="flex justify-center items-center h-full ">
         <Hint label="Bring to front" side="bottom" sideOffset={5}>
@@ -351,6 +351,17 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
             variant="ghost"
           >
             <RxTransparencyGrid className="size-5" />
+          </Button>
+        </Hint>
+      </div>
+      <div className="flex justify-center items-center h-full ">
+        <Hint label="Delete" side="bottom" sideOffset={5}>
+          <Button
+            onClick={() => editor?.deleteObject()}
+            size="sm"
+            variant="ghost"
+          >
+            <Trash2 className="size-5" />
           </Button>
         </Hint>
       </div>

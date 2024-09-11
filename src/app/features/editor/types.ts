@@ -153,6 +153,7 @@ export type BuildEditorProps = {
 export interface editorMethods {
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
+  deleteObject: () => void;
   addText: (value: string, options?: ITextOptions) => void;
   addCircle: () => void;
   addDiamond: () => void;
