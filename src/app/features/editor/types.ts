@@ -154,6 +154,7 @@ export interface editorMethods {
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
   deleteObject: () => void;
+  addImage: (value: string) => void;
   addText: (value: string, options?: ITextOptions) => void;
   addCircle: () => void;
   addDiamond: () => void;
