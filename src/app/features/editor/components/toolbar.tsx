@@ -21,12 +21,13 @@ import {
   FaStrikethrough,
   FaUnderline,
 } from "react-icons/fa6";
+import FontSizeInput from "./font-size-input";
 import { BsBorderWidth } from "react-icons/bs";
+import { TbColorFilter } from "react-icons/tb";
 import { RiSendToBack, RiBringToFront } from "react-icons/ri";
 import { RxTransparencyGrid, RxBorderAll } from "react-icons/rx";
 import { isTextType } from "../utils";
 import { ChevronDown, Trash2 } from "lucide-react";
-import FontSizeInput from "./font-size-input";
 
 interface ToolbarProps {
   editor: editorMethods | undefined;
@@ -67,6 +68,7 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
   const selectedObject = editor?.selectedObjects[0];
   const selectedObjectType = editor?.selectedObjects[0].type;
   const isText = isTextType(selectedObjectType);
+  const isImage = selectedObjectType === "image";
 
   const toggleBold = () => {
     if (!selectedObject) return;
@@ -112,25 +114,48 @@ const Toolbar = ({ editor, activeTool, onChangeActiveTool }: ToolbarProps) => {
   return (
     <div className="toolbar h-[52px] w-full border-b shrink-0 flex items-center overflow-x-auto z-[49] p-2 gap-x-2">
       {/* Fill color */}
-      <div className="flex justify-center items-center h-full ">
-        <Hint label="Color" side="bottom" sideOffset={5}>
-          <Button
-            onClick={() => onChangeActiveTool("fill")}
-            size="sm"
-            variant="ghost"
-            className={cn(activeTool === "fill" && "bg-accent text-primary")}
-          >
-            <div className="rounded-sm flex items-center justify-center">
-              <FaFillDrip
-                className="size-5"
-                style={{
-                  color: properties.fillColor,
-                }}
-              />
-            </div>
-          </Button>
-        </Hint>
-      </div>
+
+      {!isImage && (
+        <>
+          <div className="flex justify-center items-center h-full ">
+            <Hint label="Color" side="bottom" sideOffset={5}>
+              <Button
+                onClick={() => onChangeActiveTool("fill")}
+                size="sm"
+                variant="ghost"
+                className={cn(
+                  activeTool === "fill" && "bg-accent text-primary"
+                )}
+              >
+                <div className="rounded-sm flex items-center justify-center">
+                  <FaFillDrip
+                    className="size-5"
+                    style={{
+                      color: properties.fillColor,
+                    }}
+                  />
+                </div>
+              </Button>
+            </Hint>
+          </div>
+        </>
+      )}
+      {isImage && (
+        <div className="flex items-center h-full justify-center">
+          <Hint label="Filters" side="bottom" sideOffset={5}>
+            <Button
+              onClick={() => onChangeActiveTool("filter")}
+              size="icon"
+              variant="ghost"
+              className={cn(
+                activeTool === "filter" && "bg-accent text-primary"
+              )}
+            >
+              <TbColorFilter className="size-5" />
+            </Button>
+          </Hint>
+        </div>
+      )}
       {/* stroke style */}
       {!isText && (
         <>

@@ -18,7 +18,7 @@ import {
   TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from "../types";
-import { isTextType } from "../utils";
+import { createFilter, isTextType } from "../utils";
 import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
 
@@ -58,13 +58,34 @@ const buildEditor = ({
   };
 
   return {
-    addImage: (value: string) => {
-      fabric.Image.fromURL(value, (image) => {
-        const workspace = getWorkspace();
-        image.scaleToWidth(workspace?.width || 0);
-        image.scaleToHeight(workspace?.height || 0);
-        addToCanvas(image);
+    changeImageFilter: (value: string) => {
+      const objects = canvas.getActiveObjects();
+      objects.forEach((object) => {
+        if (object.type === "image") {
+          const imageObj = object as fabric.Image;
+          const effect = createFilter(value);
+
+          imageObj.filters = effect ? [effect] : [];
+          imageObj.applyFilters();
+          canvas.renderAll();
+        }
       });
+    },
+
+    addImage: (value: string) => {
+      fabric.Image.fromURL(
+        value,
+        (image) => {
+          const workspace = getWorkspace();
+          image.scaleToWidth(workspace?.width || 0);
+          image.scaleToHeight(workspace?.height || 0);
+
+          addToCanvas(image);
+        },
+        {
+          crossOrigin: "anonymous",
+        }
+      );
     },
     deleteObject: () => {
       canvas.getActiveObjects().forEach((object) => {

@@ -25,6 +25,31 @@ export const colors = [
   "transparent",
 ];
 
+export const filters = [
+  "none",
+  "polaroid",
+  "sepia",
+  "kodachrome",
+  "contrast",
+  "brightness",
+  "greyscale",
+  "brownie",
+  "vintage",
+  "technicolor",
+  "pixelate",
+  "invert",
+  "blur",
+  "sharpen",
+  "emboss",
+  "removecolor",
+  "blacknwhite",
+  "vibrance",
+  "blendcolor",
+  "huerotate",
+  "resize",
+  "saturation",
+  "gamma",
+];
 export const fonts = [
   "Arial",
   "Arial Black",
@@ -163,6 +188,7 @@ export interface editorMethods {
   addTriangle: () => void;
   bringForward: () => void;
   sendBackward: () => void;
+  changeImageFilter: (value: string) => void;
   changeFillColor: (value: string) => void;
   changeStrokeColor: (value: string) => void;
   changeStrokeDashArray: (value: number[]) => void;
