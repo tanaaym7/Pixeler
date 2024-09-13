@@ -17,25 +17,10 @@ import TextSidebar from "./text-sidebar";
 import FontSidebar from "./font-sidebar";
 import ImageSidebar from "./image-sidebar";
 import FilterSidebar from "./filter-sidebar";
+import DrawSidebar from "./draw-sidebar";
 
 const Editor = () => {
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
-
-  const onChangeActiveTool = useCallback(
-    (tool: ActiveTool) => {
-      if (tool === activeTool) {
-        return setActiveTool("select");
-      }
-      if (tool === "draw") {
-        //enable draw mode
-      }
-      if (activeTool === "draw") {
-        //disable draw mode
-      }
-      setActiveTool(tool);
-    },
-    [activeTool]
-  );
 
   const onClearSelection = useCallback(() => {
     if (selectionDependentTool.includes(activeTool)) {
@@ -46,6 +31,23 @@ const Editor = () => {
   const { init, editor } = useEditor({
     clearSelectionCallback: onClearSelection,
   });
+
+  const onChangeActiveTool = useCallback(
+    (tool: ActiveTool) => {
+      if (tool === "draw") {
+        editor?.enableDrawMode();
+      }
+      if (activeTool === "draw") {
+        editor?.disableDrawMode();
+      }
+      if (tool === activeTool) {
+        return setActiveTool("select");
+      }
+      setActiveTool(tool);
+    },
+    [activeTool, editor]
+  );
+
   const canvasRef = useRef(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -114,6 +116,11 @@ const Editor = () => {
           editor={editor}
         />
         <FilterSidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+          editor={editor}
+        />
+        <DrawSidebar
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
           editor={editor}

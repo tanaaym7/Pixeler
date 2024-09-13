@@ -21,9 +21,12 @@ import {
 import { createFilter, isTextType } from "../utils";
 import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
+import { useClipboard } from "./us-clipboard";
 
 const buildEditor = ({
   canvas,
+  copy,
+  paste,
   fillColor,
   selectedObjects,
   setFillColor,
@@ -58,6 +61,19 @@ const buildEditor = ({
   };
 
   return {
+    onCopy: () => copy(),
+    onPaste: () => paste(),
+
+    enableDrawMode: () => {
+      canvas.discardActiveObject();
+      canvas.renderAll();
+      canvas.isDrawingMode = true;
+      canvas.freeDrawingBrush.color = strokeColor;
+      canvas.freeDrawingBrush.width = strokeWidth;
+    },
+    disableDrawMode: () => {
+      canvas.isDrawingMode = false;
+    },
     changeImageFilter: (value: string) => {
       const objects = canvas.getActiveObjects();
       objects.forEach((object) => {
@@ -87,6 +103,7 @@ const buildEditor = ({
         }
       );
     },
+
     deleteObject: () => {
       canvas.getActiveObjects().forEach((object) => {
         canvas.remove(object);
@@ -217,6 +234,7 @@ const buildEditor = ({
         }
         object.set({ stroke: value });
       });
+      canvas.freeDrawingBrush.color = value;
       canvas.renderAll();
     },
 
@@ -225,6 +243,7 @@ const buildEditor = ({
       canvas.getActiveObjects().forEach((object) => {
         object.set({ strokeWidth: value });
       });
+      canvas.freeDrawingBrush.width = value;
       canvas.renderAll();
     },
 
@@ -392,6 +411,7 @@ const buildEditor = ({
       const value = selectedObject.get("fontSize") || FONT_SIZE;
       return value;
     },
+
     getActiveFillColor: () => {
       const activeObject = selectedObjects[0];
       if (!activeObject) {
@@ -466,11 +486,16 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     clearSelectionCallback,
   });
 
+  //clipboard
+  const { copy, paste } = useClipboard({ canvas });
+
   // editor methods
   const editor = useMemo(() => {
     if (canvas) {
       return buildEditor({
         canvas,
+        copy,
+        paste,
         selectedObjects,
         fillColor,
         strokeColor,
@@ -487,6 +512,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     return undefined;
   }, [
     canvas,
+    copy,
+    paste,
     fillColor,
     strokeColor,
     strokeWidth,

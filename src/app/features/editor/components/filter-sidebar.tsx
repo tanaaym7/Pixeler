@@ -19,8 +19,6 @@ const FilterSidebar = ({
     onChangeActiveTool("select");
   };
 
-  const fontFamily = editor?.getActiveFontFamily();
-
   return (
     <aside
       className={cn(

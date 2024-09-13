@@ -162,6 +162,8 @@ export type EditorHookProps = {
 
 export type BuildEditorProps = {
   canvas: fabric.Canvas;
+  copy: () => void;
+  paste: () => void;
   fillColor: string;
   selectedObjects: fabric.Object[];
   setFillColor: (value: string) => void;
@@ -179,6 +181,10 @@ export interface editorMethods {
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
   deleteObject: () => void;
+  onCopy: () => void;
+  onPaste: () => void;
+  enableDrawMode: () => void;
+  disableDrawMode: () => void;
   addImage: (value: string) => void;
   addText: (value: string, options?: ITextOptions) => void;
   addCircle: () => void;
