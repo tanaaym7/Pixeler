@@ -6,8 +6,7 @@ interface UseAutoResizeProps {
 }
 
 export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
- 
-    const autoZoom = useCallback(() => {
+  const autoZoom = useCallback(() => {
     if (!canvas || !container) return;
 
     const width = container.offsetWidth;
@@ -73,4 +72,6 @@ export const useAutoResize = ({ canvas, container }: UseAutoResizeProps) => {
       }
     };
   }, [canvas, container, autoZoom]);
+
+  return { autoZoom };
 };

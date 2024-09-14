@@ -21,8 +21,6 @@ export const colors = [
   material.deepOrange["500"],
   material.brown["500"],
   material.grey["500"],
-  material.blueGrey["500"],
-  "transparent",
 ];
 
 export const filters = [
@@ -164,6 +162,7 @@ export type BuildEditorProps = {
   canvas: fabric.Canvas;
   copy: () => void;
   paste: () => void;
+  autoZoom: () => void;
   fillColor: string;
   selectedObjects: fabric.Object[];
   setFillColor: (value: string) => void;
@@ -180,6 +179,7 @@ export type BuildEditorProps = {
 export interface editorMethods {
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
+  getWorkspace: () => fabric.Object | undefined;
   deleteObject: () => void;
   onCopy: () => void;
   onPaste: () => void;
@@ -194,6 +194,8 @@ export interface editorMethods {
   addTriangle: () => void;
   bringForward: () => void;
   sendBackward: () => void;
+  changeCanvasSize: (value: { width: number; height: number }) => void;
+  changeCanvasBg: (value: string) => void;
   changeImageFilter: (value: string) => void;
   changeFillColor: (value: string) => void;
   changeStrokeColor: (value: string) => void;

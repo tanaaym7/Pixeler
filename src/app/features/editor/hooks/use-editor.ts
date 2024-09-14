@@ -27,6 +27,7 @@ const buildEditor = ({
   canvas,
   copy,
   paste,
+  autoZoom,
   fillColor,
   selectedObjects,
   setFillColor,
@@ -61,9 +62,20 @@ const buildEditor = ({
   };
 
   return {
+    getWorkspace,
     onCopy: () => copy(),
     onPaste: () => paste(),
 
+    changeCanvasSize: (value: { width: number; height: number }) => {
+      const workspace = getWorkspace();
+      workspace?.set(value);
+      autoZoom();
+    },
+    changeCanvasBg: (value: string) => {
+      const workspace = getWorkspace();
+      workspace?.set({ fill: value });
+      canvas.renderAll();
+    },
     enableDrawMode: () => {
       canvas.discardActiveObject();
       canvas.renderAll();
@@ -476,7 +488,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     useState<number[]>(STROKE_DASH_ARRAY);
 
   // auto resize canvas
-  useAutoResize({ canvas, container });
+  const { autoZoom } = useAutoResize({ canvas, container });
 
   // canvas events
   useCanvasEvents({
@@ -496,6 +508,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
         canvas,
         copy,
         paste,
+        autoZoom,
         selectedObjects,
         fillColor,
         strokeColor,
@@ -514,6 +527,7 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
     canvas,
     copy,
     paste,
+    autoZoom,
     fillColor,
     strokeColor,
     strokeWidth,
