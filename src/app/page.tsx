@@ -1,11 +1,12 @@
-import { Button } from "@/components/ui/button"
+import { auth } from "@/auth";
+import { protectedRoute } from "@/features/auth/utils";
 
-const page = () => {
+export default async function Home() {
+  await protectedRoute();
   return (
     <div>
-        <Button variant="default">hello</Button>
+      you are logged in
     </div>
-  )
+  );
 }
 
-export default page

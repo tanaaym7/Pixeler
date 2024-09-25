@@ -1,11 +1,15 @@
-import Editor from "@/app/features/editor/components/editor";
+import { protectedRoute } from "@/features/auth/utils";
+import Editor from "@/features/editor/components/editor";
 
-const EditorProjectIdPage = () => {
-  return (
-    <div className="h-full">
-      <Editor />
-    </div>
-  );
+const EditorProjectIdPage = async () => {
+  {
+    await protectedRoute();
+    return (
+      <div className="h-full">
+        <Editor />
+      </div>
+    );
+  }
 };
 
 export default EditorProjectIdPage;

@@ -2,7 +2,7 @@ import { ActiveTool, editorMethods } from "../types";
 import { ChevronsRight, Loader, TriangleAlert, Upload } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useGetImages } from "@/app/features/images/api/use-get-images";
+import { useGetImages } from "@/features/images/api/use-get-images";
 import Image from "next/image";
 import Link from "next/link";
 import { UploadButton } from "@/lib/uploadthing";
