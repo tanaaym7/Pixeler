@@ -21,15 +21,16 @@ import {
 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import Hint from "@/components/hint";
-import { ActiveTool } from "../types";
+import { ActiveTool, editorMethods } from "../types";
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
+  editor: editorMethods | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
 }
 
-const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
+const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
   return (
     <nav className="navbar flex items-center p-4 h-[68px] lg:pl-[34px] shadow-md gap-x-8">
       <Image src="/logo.png" alt="Logo" width={38} height={38} priority />
@@ -64,12 +65,22 @@ const Navbar = ({ activeTool, onChangeActiveTool }: NavbarProps) => {
           </Button>
         </Hint>
         <Hint label="Undo" side="bottom" sideOffset={8}>
-          <Button variant="ghost" size="sm">
+          <Button
+            disabled={!editor?.canUndo()}
+            variant="ghost"
+            size="sm"
+            onClick={() => editor?.onUndo()}
+          >
             <Undo2 className="size-4" />
           </Button>
         </Hint>
         <Hint label="Redo" side="bottom" sideOffset={8}>
-          <Button variant="ghost" size="sm">
+          <Button
+            disabled={!editor?.canRedo()}
+            variant="ghost"
+            size="sm"
+            onClick={() => editor?.onRedo()}
+          >
             <Redo2 className="size-4" />
           </Button>
         </Hint>

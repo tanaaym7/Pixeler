@@ -69,6 +69,17 @@ export const fonts = [
   "Lucida Console",
 ];
 
+export const JSON_KEYS = [
+  "name",
+  "gradientAngle",
+  "selectable",
+  "hasControls",
+  "linkData",
+  "editable",
+  "extensionType",
+  "extension",
+];
+
 export type ActiveTool =
   | "select"
   | "shapes"
@@ -160,6 +171,11 @@ export type EditorHookProps = {
 
 export type BuildEditorProps = {
   canvas: fabric.Canvas;
+  save: (skip?: boolean) => void;
+  canUndo: () => boolean;
+  canRedo: () => boolean;
+  undo: () => void;
+  redo: () => void;
   copy: () => void;
   paste: () => void;
   autoZoom: () => void;
@@ -177,12 +193,19 @@ export type BuildEditorProps = {
 };
 
 export interface editorMethods {
+  canUndo: () => boolean;
+  canRedo: () => boolean;
+  onUndo: () => void;
+  onRedo: () => void;
   canvas: fabric.Canvas;
   selectedObjects: fabric.Object[];
   getWorkspace: () => fabric.Object | undefined;
   deleteObject: () => void;
   onCopy: () => void;
   onPaste: () => void;
+  autoZoom: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
   enableDrawMode: () => void;
   disableDrawMode: () => void;
   addImage: (value: string) => void;
