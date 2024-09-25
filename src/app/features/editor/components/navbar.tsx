@@ -1,11 +1,11 @@
-import Image from "next/image";
+"use client";
 
+import Image from "next/image";
+import { useFilePicker } from "use-file-picker";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
@@ -31,6 +31,20 @@ interface NavbarProps {
 }
 
 const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
+  const { openFilePicker } = useFilePicker({
+    accept: ".json",
+    onFilesSuccessfullySelected: ({ plainFiles }: any) => {
+      if (plainFiles && plainFiles.length > 0) {
+        const file = plainFiles[0];
+        const reader = new FileReader();
+        reader.readAsText(file, "utf-8");
+        reader.onload = () => {
+          editor?.loadJson(reader.result as string);
+        };
+      }
+    },
+  });
+
   return (
     <nav className="navbar flex items-center p-4 h-[68px] lg:pl-[34px] shadow-md gap-x-8">
       <Image src="/logo.png" alt="Logo" width={38} height={38} priority />
@@ -43,11 +57,14 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="min-w-60">
-            <DropdownMenuItem className="flex items-center gap-x-2">
+            <DropdownMenuItem
+              className="flex items-center gap-x-2"
+              onClick={() => openFilePicker()}
+            >
               <FilePlus2 className="size-8" />
               <div>
                 <p>Open</p>
-                <p className="text-xs text-muted-foreground">Open a file</p>
+                <p className="text-xs text-muted-foreground">Open a JSON file</p>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -99,14 +116,20 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="min-w-60">
-              <DropdownMenuItem className="flex items-center gap-x-2">
+              <DropdownMenuItem
+                className="flex items-center gap-x-2"
+                onClick={() => editor?.savePng()}
+              >
                 <FileImage className="size-8" />
                 <div>
                   <p>PNG</p>
                   <p className="text-xs text-muted-foreground">Best for web</p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-x-2">
+              <DropdownMenuItem
+                className="flex items-center gap-x-2"
+                onClick={() => editor?.saveJpg()}
+              >
                 <FileImage className="size-8" />
                 <div>
                   <p>JPEG</p>
@@ -115,7 +138,10 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
                   </p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-x-2">
+              <DropdownMenuItem
+                className="flex items-center gap-x-2"
+                onClick={() => editor?.saveSvg()}
+              >
                 <FileImage className="size-8" />
                 <div>
                   <p>SVG</p>
@@ -124,7 +150,10 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
                   </p>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-x-2">
+              <DropdownMenuItem
+                className="flex items-center gap-x-2"
+                onClick={() => editor?.saveJson()}
+              >
                 <FilePlus2 className="size-8" />
                 <div>
                   <p>JSON</p>
