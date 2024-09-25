@@ -70,7 +70,11 @@ const Editor = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <Navbar activeTool={activeTool} onChangeActiveTool={onChangeActiveTool} />
+      <Navbar
+        editor={editor}
+        activeTool={activeTool}
+        onChangeActiveTool={onChangeActiveTool}
+      />
       <div className="absolute w-full h-[calc(100%-68px)] top-[68px] flex">
         <Sidebar
           activeTool={activeTool}
@@ -144,7 +148,7 @@ const Editor = () => {
           >
             <canvas ref={canvasRef} />
           </div>
-          <Footer />
+          <Footer editor={editor} />
         </main>
       </div>
     </div>
