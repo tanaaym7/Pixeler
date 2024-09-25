@@ -19,12 +19,18 @@ import {
   TEXT_OPTIONS,
   TRIANGLE_OPTIONS,
 } from "../types";
-import { createFilter, isTextType } from "../utils";
+import {
+  createFilter,
+  downloadFile,
+  isTextType,
+  transformText,
+} from "../utils";
 import { useAutoResize } from "./use-auto-resize";
 import { useCanvasEvents } from "./use-canvas-events";
 import { useClipboard } from "./use-clipboard";
 import { useHistory } from "./use-history";
 import { useHotkeys } from "./use-hotkeys";
+import { useWindowEvents } from "./use-window-events";
 
 const buildEditor = ({
   save,
@@ -51,6 +57,64 @@ const buildEditor = ({
   const shapeWidth = 300;
   const shapeHeight = 300;
 
+  const generateSaveOptions = () => {
+    const { width, height, left, top } = getWorkspace() as fabric.Rect;
+    return {
+      name: "Image",
+      format: "png",
+      quality: 1,
+      width,
+      height,
+      left,
+      top,
+    };
+  };
+
+  const savePng = () => {
+    const options = generateSaveOptions();
+
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    const dataUrl = canvas.toDataURL(options);
+
+    downloadFile(dataUrl, "png");
+    autoZoom();
+  };
+  const saveSvg = () => {
+    const options = generateSaveOptions();
+
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    const dataUrl = canvas.toDataURL(options);
+
+    downloadFile(dataUrl, "svg");
+    autoZoom();
+  };
+
+  const saveJpg = () => {
+    const options = generateSaveOptions();
+
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    const dataUrl = canvas.toDataURL(options);
+
+    downloadFile(dataUrl, "jpg");
+    autoZoom();
+  };
+
+  const saveJson = async () => {
+    const dataUrl = canvas.toJSON(JSON_KEYS);
+    await transformText(dataUrl.objects);
+    const fileString = `data:text/json;charset=utf-8,${encodeURIComponent(
+      JSON.stringify(dataUrl, null, "\t")
+    )}`;
+    downloadFile(fileString, "json");
+  };
+
+  const loadJson = (json: string) => {
+    const data = JSON.parse(json);
+    canvas.loadFromJSON(data, () => {
+      autoZoom();
+    });
+  };
+
   const getWorkspace = () => {
     return canvas.getObjects().find((object) => object.name === "clip");
   };
@@ -71,6 +135,11 @@ const buildEditor = ({
 
   return {
     getWorkspace,
+    savePng,
+    saveSvg,
+    saveJpg,
+    saveJson,
+    loadJson,
     canRedo,
     canUndo,
     onUndo: () => undo(),
@@ -518,6 +587,8 @@ export const useEditor = ({ clearSelectionCallback }: EditorHookProps) => {
   const [strokeWidth, setStrokeWidth] = useState<number>(STROKE_WIDTH);
   const [strokeDashArray, setStrokeDashArray] =
     useState<number[]>(STROKE_DASH_ARRAY);
+
+  useWindowEvents();
 
   const { save, canUndo, canRedo, undo, redo, setHistoryIndex, canvasHistory } =
     useHistory({ canvas });
