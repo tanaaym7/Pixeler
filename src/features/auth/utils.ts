@@ -1,9 +1,11 @@
 import { redirect } from "next/navigation";
+
 import { auth } from "@/auth";
 
-export const protectedRoute = async () => {
+export const protectServer = async () => {
   const session = await auth();
+
   if (!session) {
-    redirect("/api/auth/sign-in");
+    redirect("/api/auth/signin");
   }
 };

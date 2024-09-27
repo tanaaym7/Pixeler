@@ -14,9 +14,10 @@ export const users = pgTable("user", {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text("name"),
-  email: text("email").unique(),
+  email: text("email").notNull(),
   emailVerified: timestamp("emailVerified", { mode: "date" }),
   image: text("image"),
+  password: text("password"),
 });
 
 export const accounts = pgTable(
@@ -85,3 +86,21 @@ export const authenticators = pgTable(
     }),
   })
 );
+
+export const projects = pgTable("project", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text("name").notNull(),
+  userId: text("userId")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  json: text("json").notNull(),
+  height: integer("height").notNull(),
+  width: integer("width").notNull(),
+  thumbnailUrl: text("thumbnailUrl"),
+  isTemplate: boolean("isTemplate"),
+  isPro: boolean("isPro"),
+  createdAt: timestamp("createdAt", { mode: "date" }).notNull(),
+  updatedAt: timestamp("updatedAt", { mode: "date" }).notNull(),
+});

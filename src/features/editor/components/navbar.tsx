@@ -23,6 +23,7 @@ import { Separator } from "@/components/ui/separator";
 import Hint from "@/components/hint";
 import { ActiveTool, editorMethods } from "../types";
 import { cn } from "@/lib/utils";
+import { UserButton } from "@/features/auth/components/user-button";
 
 interface NavbarProps {
   editor: editorMethods | undefined;
@@ -46,7 +47,7 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
   });
 
   return (
-    <nav className="navbar flex items-center p-4 h-[68px] lg:pl-[34px] shadow-md gap-x-8">
+    <nav className="navbar w-full flex items-center p-4 h-[68px] gap-x-8 border-b lg:pl-[34px]">
       <Image src="/logo.png" alt="Logo" width={38} height={38} priority />
       <div className="w-full flex items-center gap-x-1 h-full">
         <DropdownMenu>
@@ -64,7 +65,9 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
               <FilePlus2 className="size-8" />
               <div>
                 <p>Open</p>
-                <p className="text-xs text-muted-foreground">Open a JSON file</p>
+                <p className="text-xs text-muted-foreground">
+                  Open a JSON file
+                </p>
               </div>
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -107,8 +110,8 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
           <HardDriveDownload className="size-5" />
           <p className="text-sm font-medium text-muted-foreground">Saved</p>
         </div>
-        <div className="ml-auto">
-          <DropdownMenu>
+        <div className="ml-auto flex items-center gap-x-4">
+          <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
               <Button variant="syntax">
                 Export
@@ -164,6 +167,7 @@ const Navbar = ({ editor, activeTool, onChangeActiveTool }: NavbarProps) => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          <UserButton />
         </div>
       </div>
     </nav>

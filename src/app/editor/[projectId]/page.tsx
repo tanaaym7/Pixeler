@@ -1,9 +1,9 @@
-import { protectedRoute } from "@/features/auth/utils";
+import { protectServer } from "@/features/auth/utils";
 import Editor from "@/features/editor/components/editor";
 
 const EditorProjectIdPage = async () => {
   {
-    await protectedRoute();
+    await protectServer();
     return (
       <div className="h-full">
         <Editor />

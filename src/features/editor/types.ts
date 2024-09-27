@@ -44,7 +44,6 @@ export const filters = [
   "vibrance",
   "blendcolor",
   "huerotate",
-  "resize",
   "saturation",
   "gamma",
 ];
