@@ -23,8 +23,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { useDuplicateProject } from "@/features/projects/api/use-duplicate-project";
 import { useDeleteProject } from "@/features/projects/api/use-delete-project";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export const ProjectsSection = () => {
+  const [ConfirmDialog, confirm] = useConfirm(
+    "Are you sure?",
+    "You are about to delete this project."
+  );
   const duplicateMutation = useDuplicateProject();
   const deleteMutation = useDeleteProject();
   const router = useRouter();
@@ -33,8 +38,12 @@ export const ProjectsSection = () => {
     duplicateMutation.mutate({ id });
   };
 
-  const onDelete = (id: string) => {
-    deleteMutation.mutate({ id });
+  const onDelete = async (id: string) => {
+    const ok = await confirm();
+
+    if (ok) {
+      deleteMutation.mutate({ id });
+    }
   };
 
   const { data, status, fetchNextPage, isFetchingNextPage, hasNextPage } =
@@ -79,6 +88,7 @@ export const ProjectsSection = () => {
 
   return (
     <div className="space-y-4">
+      <ConfirmDialog />
       <h3 className="text-xl font-semibold">Recent projects</h3>
       <Table>
         <TableBody>
