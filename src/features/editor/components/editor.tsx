@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { fabric } from "fabric";
+import debounce from "lodash.debounce";
 import { useEditor } from "../hooks/use-editor";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
@@ -19,8 +20,24 @@ import ImageSidebar from "./image-sidebar";
 import FilterSidebar from "./filter-sidebar";
 import DrawSidebar from "./draw-sidebar";
 import SettingsSidebar from "./settings-sidebar";
+import { ResponseType } from "@/features/projects/api/use-get-project";
+import { useUpdateProject } from "@/features/projects/api/use-update-project";
 
-const Editor = () => {
+interface EditorProps {
+  initialData: ResponseType["data"];
+}
+
+const Editor = ({ initialData }: EditorProps) => {
+  const { mutate } = useUpdateProject(initialData.id);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const debouncedSave = useCallback(
+    debounce((values: { json: string; height: number; width: number }) => {
+      mutate(values);
+    }, 500),
+    [mutate]
+  );
+
   const [activeTool, setActiveTool] = useState<ActiveTool>("select");
 
   const onClearSelection = useCallback(() => {
@@ -30,7 +47,11 @@ const Editor = () => {
   }, [activeTool]);
 
   const { init, editor } = useEditor({
+    defaultState: initialData.json,
+    defaultHeight: initialData.height,
+    defaultWidth: initialData.width,
     clearSelectionCallback: onClearSelection,
+    saveCallback: debouncedSave,
   });
 
   const onChangeActiveTool = useCallback(
@@ -71,6 +92,7 @@ const Editor = () => {
   return (
     <div className="h-full flex flex-col">
       <Navbar
+        id={initialData.id}
         editor={editor}
         activeTool={activeTool}
         onChangeActiveTool={onChangeActiveTool}
