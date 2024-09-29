@@ -6,6 +6,7 @@ import authConfig from "@/auth.config";
 import images from "./images";
 import users from "./users";
 import projects from "./projects";
+import subscriptions from "./subscriptions";
 export const runtime = "nodejs";
 
 function getAuthConfig(c: Context): AuthConfig {
@@ -22,7 +23,8 @@ app.use("*", initAuthConfig(getAuthConfig));
 const routes = app
   .route("/users", users)
   .route("/images", images)
-  .route("/projects", projects);
+  .route("/projects", projects)
+  .route("/subscriptions", subscriptions);
 
 export const GET = handle(app);
 export const POST = handle(app);

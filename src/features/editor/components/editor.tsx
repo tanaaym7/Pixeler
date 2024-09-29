@@ -22,6 +22,7 @@ import DrawSidebar from "./draw-sidebar";
 import SettingsSidebar from "./settings-sidebar";
 import { ResponseType } from "@/features/projects/api/use-get-project";
 import { useUpdateProject } from "@/features/projects/api/use-update-project";
+import TemplateSidebar from "./template-sidebar";
 
 interface EditorProps {
   initialData: ResponseType["data"];
@@ -153,6 +154,11 @@ const Editor = ({ initialData }: EditorProps) => {
           editor={editor}
         />
         <SettingsSidebar
+          activeTool={activeTool}
+          onChangeActiveTool={onChangeActiveTool}
+          editor={editor}
+        />
+        <TemplateSidebar
           activeTool={activeTool}
           onChangeActiveTool={onChangeActiveTool}
           editor={editor}
