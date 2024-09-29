@@ -62,13 +62,13 @@ const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
             onChangeActiveTool("draw");
           }}
         />
+
         <SidebarItem
           icon={Sparkles}
           label="Ai"
+          disabled={true}
           isActive={activeTool === "ai"}
-          onClick={() => {
-            onChangeActiveTool("ai");
-          }}
+          onClick={() => {}}
         />
         <SidebarItem
           icon={Settings}
