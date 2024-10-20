@@ -34,7 +34,7 @@ export default {
     Credentials({
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" },
+        pasword: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         const validatedFields = CredentialsSchema.safeParse(credentials);
@@ -65,12 +65,9 @@ export default {
         return user;
       },
     }),
-    GitHub({
-      clientId: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    }),
+    GitHub,
     Google,
-  ] as const,
+  ],
   pages: {
     signIn: "/sign-in",
     error: "/sign-in",
