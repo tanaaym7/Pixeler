@@ -28,7 +28,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@tanstack/react-query": "^5.55.4",
     "@types/bcrypt": "^5.0.2",
-    "@uploadthing/react": "^6.8.0",
+    "@uploadthing/react": "^7.0.3",
     "bcryptjs": "^2.4.3",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -56,7 +56,7 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
     "unsplash-js": "^7.0.19",
-    "uploadthing": "^6.13.3",
+    "uploadthing": "^7.1.0",
     "use-file-picker": "^2.1.2",
     "uuidv4": "^6.2.13",
     "zustand": "^5.0.0-rc.2"
