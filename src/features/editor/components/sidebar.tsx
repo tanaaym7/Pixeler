@@ -1,86 +1,73 @@
-import SidebarItem from "./sidebar-item";
+"use client";
 
-import {
+import { 
   LayoutTemplate,
-  Image,
-  Type,
-  Shapes,
+  ImageIcon,
   Pencil,
-  Sparkles,
   Settings,
+  Shapes,
+  Sparkles,
+  Type,
 } from "lucide-react";
 
-import { ActiveTool } from "../types";
+import { ActiveTool } from "@/features/editor/types";
+import { SidebarItem } from "@/features/editor/components/sidebar-item";
 
 interface SidebarProps {
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
-}
+};
 
-const Sidebar = ({ activeTool, onChangeActiveTool }: SidebarProps) => {
+export const Sidebar = ({
+  activeTool,
+  onChangeActiveTool,
+}: SidebarProps) => {
   return (
-    <aside className="sidebar flex flex-col w-[100px] h-full border-r overflow-y-auto select-none">
+    <aside className="bg-white flex flex-col w-[100px] h-full border-r overflow-y-auto">
       <ul className="flex flex-col">
         <SidebarItem
           icon={LayoutTemplate}
           label="Design"
           isActive={activeTool === "templates"}
-          onClick={() => {
-            onChangeActiveTool("templates");
-          }}
+          onClick={() => onChangeActiveTool("templates")}
         />
         <SidebarItem
-          icon={Image}
+          icon={ImageIcon}
           label="Image"
           isActive={activeTool === "images"}
-          onClick={() => {
-            onChangeActiveTool("images");
-          }}
+          onClick={() => onChangeActiveTool("images")}
         />
         <SidebarItem
           icon={Type}
           label="Text"
           isActive={activeTool === "text"}
-          onClick={() => {
-            onChangeActiveTool("text");
-          }}
+          onClick={() => onChangeActiveTool("text")}
         />
         <SidebarItem
           icon={Shapes}
-          label="Shape"
+          label="Shapes"
           isActive={activeTool === "shapes"}
-          onClick={() => {
-            onChangeActiveTool("shapes");
-          }}
+          onClick={() => onChangeActiveTool("shapes")}
         />
-
         <SidebarItem
           icon={Pencil}
-          label="Pen"
+          label="Draw"
           isActive={activeTool === "draw"}
-          onClick={() => {
-            onChangeActiveTool("draw");
-          }}
+          onClick={() => onChangeActiveTool("draw")}
         />
-
         <SidebarItem
           icon={Sparkles}
-          label="Ai"
-          disabled={true}
+          label="AI"
           isActive={activeTool === "ai"}
-          onClick={() => {}}
+          onClick={() => onChangeActiveTool("ai")}
         />
         <SidebarItem
           icon={Settings}
           label="Settings"
           isActive={activeTool === "settings"}
-          onClick={() => {
-            onChangeActiveTool("settings");
-          }}
+          onClick={() => onChangeActiveTool("settings")}
         />
       </ul>
     </aside>
   );
 };
-
-export default Sidebar;

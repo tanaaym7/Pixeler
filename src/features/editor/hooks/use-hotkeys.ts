@@ -1,5 +1,4 @@
 import { fabric } from "fabric";
-
 import { useEvent } from "react-use";
 
 interface UseHotkeysProps {
@@ -10,19 +9,20 @@ interface UseHotkeysProps {
   copy: () => void;
   paste: () => void;
 }
+
 export const useHotkeys = ({
   canvas,
   undo,
   redo,
-  copy,
-  paste,
   save,
+  copy,
+  paste
 }: UseHotkeysProps) => {
-  useEvent("keydown", (e) => {
-    const isCtrlKey = e.ctrlKey || e.metaKey;
-    const isBackspace = e.key === "Backspace";
+  useEvent("keydown", (event) => {
+    const isCtrlKey = event.ctrlKey || event.metaKey;
+    const isBackspace = event.key === "Backspace";
     const isInput = ["INPUT", "TEXTAREA"].includes(
-      (e.target as HTMLElement).tagName
+      (event.target as HTMLElement).tagName,
     );
 
     if (isInput) return;
@@ -31,36 +31,42 @@ export const useHotkeys = ({
       canvas?.remove(...canvas.getActiveObjects());
       canvas?.discardActiveObject();
     }
-    if (isCtrlKey && e.key === "z") {
-      e.preventDefault();
+
+    if (isCtrlKey && event.key === "z") {
+      event.preventDefault();
       undo();
     }
-    if (isCtrlKey && e.key === "y") {
-      e.preventDefault();
+
+    if (isCtrlKey && event.key === "y") {
+      event.preventDefault();
       redo();
     }
-    if (isCtrlKey && e.key === "c") {
-      e.preventDefault();
+
+    if (isCtrlKey && event.key === "c") {
+      event.preventDefault();
       copy();
     }
-    if (isCtrlKey && e.key === "v") {
-      e.preventDefault();
+
+    if (isCtrlKey && event.key === "v") {
+      event.preventDefault();
       paste();
     }
-    if (isCtrlKey && e.key === "s") {
-      e.preventDefault();
+
+    if (isCtrlKey && event.key === "s") {
+      event.preventDefault();
       save(true);
     }
-    if (isCtrlKey && e.key === "a") {
-      e.preventDefault();
+
+    if (isCtrlKey && event.key === "a") {
+      event.preventDefault();
       canvas?.discardActiveObject();
 
-      const allObjects = canvas?.getObjects().filter((obj) => obj.selectable);
+      const allObjects = canvas?.getObjects()
+        .filter((object) => object.selectable);
 
       canvas?.setActiveObject(
         new fabric.ActiveSelection(allObjects, { canvas })
       );
-
       canvas?.renderAll();
     }
   });

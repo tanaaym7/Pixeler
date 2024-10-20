@@ -1,19 +1,21 @@
+import { ActiveTool, Editor, FILL_COLOR } from "@/features/editor/types";
+import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
+import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
+import { ColorPicker } from "@/features/editor/components/color-picker";
+
 import { cn } from "@/lib/utils";
-import { ActiveTool, editorMethods, FILL_COLOR } from "../types";
-import { ChevronsRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import ColorPicker from "./color-picker";
 
 interface FillColorSidebarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
-  editor: editorMethods | undefined;
-}
+};
 
-const FillColorSidebar = ({
+export const FillColorSidebar = ({
+  editor,
   activeTool,
   onChangeActiveTool,
-  editor,
 }: FillColorSidebarProps) => {
   const value = editor?.getActiveFillColor() || FILL_COLOR;
 
@@ -21,39 +23,30 @@ const FillColorSidebar = ({
     onChangeActiveTool("select");
   };
 
-  const onColorChange = (value: string) => {
+  const onChange = (value: string) => {
     editor?.changeFillColor(value);
   };
-
 
   return (
     <aside
       className={cn(
-        "flex flex-col w-[280px] h-full border-r relative z-[40]",
-        activeTool === "fill"  ? "visible" : "hidden"
+        "bg-white relative border-r z-[40] w-[360px] h-full flex flex-col",
+        activeTool === "fill" ? "visible" : "hidden",
       )}
     >
-      <header className="h-[62px] p-2 border-b">
-        <p className="font-medium">Fill color</p>
-        <p className="text-sm text-muted-foreground">
-          fill color to your element
-        </p>
-      </header>
-
-      <ScrollArea className="flex-1">
-        <div className="p-4 space-y-6 ">
-          <ColorPicker value={value} onColorChange={onColorChange} />
+      <ToolSidebarHeader
+        title="Fill color"
+        description="Add fill color to your element"
+      />
+      <ScrollArea>
+        <div className="p-4 space-y-6">
+          <ColorPicker
+            value={value}
+            onChange={onChange}
+          />
         </div>
       </ScrollArea>
-
-      <button
-        onClick={onClose}
-        className="absolute top-1/2 -translate-y-1/2 -right-[1.80rem] w-[30px] h-[50px] bg-white rounded-tr-2xl rounded-br-2xl  group border-y flex items-center justify-center"
-      >
-        <ChevronsRight className="size-4 text-black group-hover:opacity-75 transition" />
-      </button>
+      <ToolSidebarClose onClick={onClose} />
     </aside>
   );
 };
-
-export default FillColorSidebar;

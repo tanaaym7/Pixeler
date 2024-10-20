@@ -1,41 +1,34 @@
-import Hint from "@/components/hint";
-import { Button } from "@/components/ui/button";
+import type { LucideIcon } from "lucide-react";
+
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface SidebarItemProps {
   icon: LucideIcon;
-  disabled?: boolean;
   label: string;
   isActive?: boolean;
   onClick: () => void;
-}
+};
 
-const SidebarItem = ({
+export const SidebarItem = ({
   icon: Icon,
   label,
-  disabled = false,
   isActive,
   onClick,
 }: SidebarItemProps) => {
   return (
-    <Hint label={disabled ? `${label} (coming soon)` : label} side="right">
-      <Button
-        variant="ghost"
-        size="sm"
-        disabled={disabled}
-        onClick={onClick}
-        className={cn(
-          "w-full h-full aspect-video p-3 py-4 flex flex-col rounded-none",
-          isActive && "bg-accent text-primary",
-          disabled && "opacity-30 cursor-not-allowed"
-        )}
-      >
-        <Icon className="shrink-0" />
-        <span>{label}</span>
-      </Button>
-    </Hint>
+    <Button
+      variant="ghost"
+      onClick={onClick}
+      className={cn(
+        "w-full h-full aspect-video p-3 py-4 flex flex-col rounded-none",
+        isActive && "bg-muted text-primary"
+      )}
+    >
+      <Icon className="size-5 stroke-2 shrink-0" />
+      <span className="mt-2 text-xs">
+        {label}
+      </span>
+    </Button>
   );
 };
-
-export default SidebarItem;

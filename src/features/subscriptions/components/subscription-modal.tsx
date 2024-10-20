@@ -1,12 +1,11 @@
 "use client";
 
-import { useSubscriptionModal } from "@/features/subscriptions/store/use-subscription-modal";
-import { useCheckout } from "../api/use-checkout";
 import Image from "next/image";
-
 import { CheckCircle2 } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import { Button } from "@/components/ui/button";
+
+import { useCheckout } from "@/features/subscriptions/api/use-checkout";
+import { useSubscriptionModal } from "@/features/subscriptions/store/use-subscription-modal";
+
 import {
   Dialog,
   DialogTitle,
@@ -15,6 +14,8 @@ import {
   DialogContent,
   DialogDescription,
 } from "@/components/ui/dialog";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
 
 export const SubscriptionModal = () => {
   const mutation = useCheckout();
@@ -23,57 +24,56 @@ export const SubscriptionModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
-        <div className="bg-gradient-to-br from-blue-100/30 to-purple-100/30 rounded-2xl backdrop-blur-md bg-opacity-70 shadow-lg border border-white/20 relative overflow-hidden">
-          <div className="absolute inset-0 bg-white/50 filter blur-xl"></div>
-          <div className="relative z-10">
-            <DialogHeader className="flex flex-col items-center space-y-6 p-8">
-              <div className="rounded-full bg-white p-2 shadow-inner">
-                <Image
-                  src="/logo.png"
-                  alt="Logo"
-                  width={48}
-                  height={48}
-                  className="drop-shadow-md"
-                />
-              </div>
-              <DialogTitle className="text-3xl font-bold text-gradient bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">
-                Elevate Your Experience
-              </DialogTitle>
-              <DialogDescription className="text-center text-gray-600 max-w-md">
-                Unlock a world of premium features and take your creativity to
-                new heights
-              </DialogDescription>
-            </DialogHeader>
-            <Separator className="bg-gradient-to-r from-blue-200/50 to-purple-200/50" />
-            <ul className="space-y-4 p-8">
-              {[
-                "Unlimited projects",
-                "Unlimited templates",
-                "AI Background removal",
-                "AI Image generation",
-              ].map((feature, index) => (
-                <li
-                  key={index}
-                  className="flex items-center space-x-3 transition-all duration-300 hover:translate-x-1"
-                >
-                  <div className="bg-blue-100 rounded-full p-1 shadow-inner">
-                    <CheckCircle2 className="size-5 text-blue-500" />
-                  </div>
-                  <p className="text-sm font-medium text-gray-700">{feature}</p>
-                </li>
-              ))}
-            </ul>
-            <DialogFooter className="p-8">
-              <Button
-                className="w-full"
-                onClick={() => mutation.mutate()}
-                disabled={mutation.isPending}
-              >
-                Upgrade
-              </Button>
-            </DialogFooter>
-          </div>
-        </div>
+        <DialogHeader className="flex items-center space-y-4">
+          <Image
+            src="/logo.svg"
+            alt="Logo"
+            width={36}
+            height={36}
+          />
+          <DialogTitle className="text-center">
+            Upgrade to a paid plan
+          </DialogTitle>
+          <DialogDescription className="text-center">
+            Upgrade to a paid plan to unlock more features
+          </DialogDescription>
+        </DialogHeader>
+        <Separator />
+        <ul className="space-y-2">
+          <li className="flex items-center">
+            <CheckCircle2 className="size-5 mr-2 fill-blue-500 text-white" />
+            <p className="text-sm text-muted-foreground">
+              Unlimited projects
+            </p>
+          </li>
+          <li className="flex items-center">
+            <CheckCircle2 className="size-5 mr-2 fill-blue-500 text-white" />
+            <p className="text-sm text-muted-foreground">
+              Unlimited templates
+            </p>
+          </li>
+          <li className="flex items-center">
+            <CheckCircle2 className="size-5 mr-2 fill-blue-500 text-white" />
+            <p className="text-sm text-muted-foreground">
+              AI Background removal
+            </p>
+          </li>
+          <li className="flex items-center">
+            <CheckCircle2 className="size-5 mr-2 fill-blue-500 text-white" />
+            <p className="text-sm text-muted-foreground">
+              AI Image generation
+            </p>
+          </li>
+        </ul>
+        <DialogFooter className="pt-2 mt-4 gap-y-2">
+          <Button
+            className="w-full"
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
+          >
+            Upgrade
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

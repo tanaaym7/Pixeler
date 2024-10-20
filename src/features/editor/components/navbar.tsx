@@ -1,42 +1,42 @@
 "use client";
 
-import Image from "next/image";
+import { CiFileOn } from "react-icons/ci";
+import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
 import { useFilePicker } from "use-file-picker";
+import { useMutationState } from "@tanstack/react-query";
+import { 
+  ChevronDown, 
+  Download, 
+  Loader, 
+  MousePointerClick, 
+  Redo2, 
+  Undo2
+} from "lucide-react";
+
+import { UserButton } from "@/features/auth/components/user-button";
+
+import { ActiveTool, Editor } from "@/features/editor/types";
+import { Logo } from "@/features/editor/components/logo";
+
+import { cn } from "@/lib/utils";
+import { Hint } from "@/components/hint";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import {
-  ChevronDown,
-  FilePlus2,
-  SquareDashedMousePointer,
-  Undo2,
-  Redo2,
-  HardDriveDownload,
-  Download,
-  FileImage,
-  Loader,
-} from "lucide-react";
-import { Separator } from "@/components/ui/separator";
-import Hint from "@/components/hint";
-import { ActiveTool, editorMethods } from "../types";
-import { cn } from "@/lib/utils";
-import { UserButton } from "@/features/auth/components/user-button";
-import { useMutationState } from "@tanstack/react-query";
-import { BsCloudCheck, BsCloudSlash } from "react-icons/bs";
-import Link from "next/link";
 
 interface NavbarProps {
   id: string;
-  editor: editorMethods | undefined;
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
-}
+};
 
-const Navbar = ({
+export const Navbar = ({
   id,
   editor,
   activeTool,
@@ -61,7 +61,7 @@ const Navbar = ({
       if (plainFiles && plainFiles.length > 0) {
         const file = plainFiles[0];
         const reader = new FileReader();
-        reader.readAsText(file, "utf-8");
+        reader.readAsText(file, "UTF-8");
         reader.onload = () => {
           editor?.loadJson(reader.result as string);
         };
@@ -70,32 +70,22 @@ const Navbar = ({
   });
 
   return (
-    <nav className="navbar w-full flex items-center p-4 h-[68px] gap-x-8 border-b lg:pl-[34px]">
-      <Link href="/">
-        <Image
-          src="/logo.png"
-          alt="Logo"
-          width={38}
-          height={38}
-          priority
-          className="cursor-pointer"
-        />
-      </Link>
-
+    <nav className="w-full flex items-center p-4 h-[68px] gap-x-8 border-b lg:pl-[34px]">
+      <Logo />
       <div className="w-full flex items-center gap-x-1 h-full">
-        <DropdownMenu>
+        <DropdownMenu modal={false}>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm" className="bg-transparent">
+            <Button size="sm" variant="ghost">
               File
-              <ChevronDown className="w-4 h-4 ml-2" />
+              <ChevronDown className="size-4 ml-2" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="min-w-60">
             <DropdownMenuItem
-              className="flex items-center gap-x-2"
               onClick={() => openFilePicker()}
+              className="flex items-center gap-x-2"
             >
-              <FilePlus2 className="size-8" />
+              <CiFileOn className="size-8" />
               <div>
                 <p>Open</p>
                 <p className="text-xs text-muted-foreground">
@@ -105,62 +95,66 @@ const Navbar = ({
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Separator orientation="vertical" className="mx-2 bg-zinc-200" />
-
-        <Hint label="Select" side="bottom" sideOffset={8}>
+        <Separator orientation="vertical" className="mx-2" />
+        <Hint label="Select" side="bottom" sideOffset={10}>
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={() => onChangeActiveTool("select")}
-            className={cn(activeTool === "select" && "bg-accent text-primary")}
+            className={cn(activeTool === "select" && "bg-gray-100")}
           >
-            <SquareDashedMousePointer className="size-4" />
+            <MousePointerClick className="size-4" />
           </Button>
         </Hint>
-        <Hint label="Undo" side="bottom" sideOffset={8}>
+        <Hint label="Undo" side="bottom" sideOffset={10}>
           <Button
             disabled={!editor?.canUndo()}
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={() => editor?.onUndo()}
           >
             <Undo2 className="size-4" />
           </Button>
         </Hint>
-        <Hint label="Redo" side="bottom" sideOffset={8}>
+        <Hint label="Redo" side="bottom" sideOffset={10}>
           <Button
             disabled={!editor?.canRedo()}
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={() => editor?.onRedo()}
           >
             <Redo2 className="size-4" />
           </Button>
         </Hint>
-        <Separator orientation="vertical" className="mx-2 bg-zinc-200" />
-
-        {isPending && (
+        <Separator orientation="vertical" className="mx-2" />
+        {isPending && ( 
           <div className="flex items-center gap-x-2">
             <Loader className="size-4 animate-spin text-muted-foreground" />
-            <div className="text-xs text-muted-foreground">Saving...</div>
+            <div className="text-xs text-muted-foreground">
+              Saving...
+            </div>
           </div>
         )}
-        {!isPending && isError && (
+        {!isPending && isError && ( 
           <div className="flex items-center gap-x-2">
             <BsCloudSlash className="size-[20px] text-muted-foreground" />
-            <div className="text-xs text-muted-foreground">Failed to save</div>
+            <div className="text-xs text-muted-foreground">
+              Failed to save
+            </div>
           </div>
         )}
-        {!isPending && !isError && (
+        {!isPending && !isError && ( 
           <div className="flex items-center gap-x-2">
             <BsCloudCheck className="size-[20px] text-muted-foreground" />
-            <div className="text-xs text-muted-foreground">Saved</div>
+            <div className="text-xs text-muted-foreground">
+              Saved
+            </div>
           </div>
         )}
         <div className="ml-auto flex items-center gap-x-4">
           <DropdownMenu modal={false}>
             <DropdownMenuTrigger asChild>
-              <Button variant="syntax">
+              <Button size="sm" variant="ghost">
                 Export
                 <Download className="size-4 ml-4" />
               </Button>
@@ -168,23 +162,37 @@ const Navbar = ({
             <DropdownMenuContent align="end" className="min-w-60">
               <DropdownMenuItem
                 className="flex items-center gap-x-2"
+                onClick={() => editor?.saveJson()}
+              >
+                <CiFileOn className="size-8" />
+                <div>
+                  <p>JSON</p>
+                  <p className="text-xs text-muted-foreground">
+                    Save for later editing
+                  </p>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="flex items-center gap-x-2"
                 onClick={() => editor?.savePng()}
               >
-                <FileImage className="size-8" />
+                <CiFileOn className="size-8" />
                 <div>
                   <p>PNG</p>
-                  <p className="text-xs text-muted-foreground">Best for web</p>
+                  <p className="text-xs text-muted-foreground">
+                    Best for sharing on the web
+                  </p>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="flex items-center gap-x-2"
                 onClick={() => editor?.saveJpg()}
               >
-                <FileImage className="size-8" />
+                <CiFileOn className="size-8" />
                 <div>
-                  <p>JPEG</p>
+                  <p>JPG</p>
                   <p className="text-xs text-muted-foreground">
-                    Best for print
+                    Best for printing
                   </p>
                 </div>
               </DropdownMenuItem>
@@ -192,23 +200,11 @@ const Navbar = ({
                 className="flex items-center gap-x-2"
                 onClick={() => editor?.saveSvg()}
               >
-                <FileImage className="size-8" />
+                <CiFileOn className="size-8" />
                 <div>
                   <p>SVG</p>
                   <p className="text-xs text-muted-foreground">
-                    Best for vector
-                  </p>
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="flex items-center gap-x-2"
-                onClick={() => editor?.saveJson()}
-              >
-                <FilePlus2 className="size-8" />
-                <div>
-                  <p>JSON</p>
-                  <p className="text-xs text-muted-foreground">
-                    save for editing later
+                    Best for editing in vector software
                   </p>
                 </div>
               </DropdownMenuItem>
@@ -220,5 +216,3 @@ const Navbar = ({
     </nav>
   );
 };
-
-export default Navbar;

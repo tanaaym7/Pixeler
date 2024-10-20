@@ -1,28 +1,25 @@
+import type { IconType } from "react-icons";
+import type { LucideIcon } from "lucide-react";
+
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
 
 interface ShapeToolProps {
-  icon: LucideIcon;
   onClick: () => void;
+  icon: LucideIcon | IconType;
   iconClassName?: string;
-  fill?: string;
-}
+};
 
-const ShapeTool = ({
-  icon: Icon,
-  iconClassName,
+export const ShapeTool = ({
   onClick,
-  ...props
+  icon: Icon,
+  iconClassName
 }: ShapeToolProps) => {
   return (
     <button
       onClick={onClick}
-      className="aspect-square border rounded-md p-3"
-      {...props}
+      className="aspect-square border rounded-md p-5"
     >
-      <Icon className={cn("size-full", iconClassName)} />
+      <Icon className={cn("h-full w-full", iconClassName)} />
     </button>
   );
 };
-
-export default ShapeTool;

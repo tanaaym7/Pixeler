@@ -1,35 +1,37 @@
+import { 
+  ActiveTool, 
+  Editor, 
+  STROKE_COLOR, 
+  STROKE_WIDTH
+} from "@/features/editor/types";
+import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
+import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
+import { ColorPicker } from "@/features/editor/components/color-picker";
+
 import { cn } from "@/lib/utils";
-import {
-  ActiveTool,
-  editorMethods,
-  FILL_COLOR,
-  STROKE_COLOR,
-  STROKE_WIDTH,
-} from "../types";
-import { ChevronsRight } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import ColorPicker from "./color-picker";
-import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
+import { Slider } from "@/components/ui/slider";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface DrawSidebarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
-  editor: editorMethods | undefined;
-}
+};
 
-const DrawSidebar = ({
+export const DrawSidebar = ({
+  editor,
   activeTool,
   onChangeActiveTool,
-  editor,
 }: DrawSidebarProps) => {
   const colorValue = editor?.getActiveStrokeColor() || STROKE_COLOR;
   const widthValue = editor?.getActiveStrokeWidth() || STROKE_WIDTH;
 
   const onClose = () => {
-    editor?.disableDrawMode();
+    editor?.disableDrawingMode();
     onChangeActiveTool("select");
   };
+
   const onColorChange = (value: string) => {
     editor?.changeStrokeColor(value);
   };
@@ -41,34 +43,32 @@ const DrawSidebar = ({
   return (
     <aside
       className={cn(
-        "flex flex-col w-[280px] h-full border-r relative z-[40]",
-        activeTool === "draw" ? "visible" : "hidden"
+        "bg-white relative border-r z-[40] w-[360px] h-full flex flex-col",
+        activeTool === "draw" ? "visible" : "hidden",
       )}
     >
-      <header className="h-[62px] p-2 border-b">
-        <p className="font-medium">Modify brush settings</p>
-      </header>
-
+      <ToolSidebarHeader
+        title="Drawing mode"
+        description="Modify brush settings"
+      />
       <ScrollArea>
         <div className="p-4 space-y-6 border-b">
-          <Label className="text-sm">Brush width</Label>
+          <Label className="text-sm">
+            Brush width
+          </Label>
           <Slider
             value={[widthValue]}
             onValueChange={(values) => onWidthChange(values[0])}
           />
         </div>
         <div className="p-4 space-y-6">
-          <ColorPicker value={colorValue} onColorChange={onColorChange} />
+          <ColorPicker
+            value={colorValue}
+            onChange={onColorChange}
+          />
         </div>
       </ScrollArea>
-      <button
-        onClick={onClose}
-        className="absolute top-1/2 -translate-y-1/2 -right-[1.80rem] w-[30px] h-[50px] bg-white rounded-tr-2xl rounded-br-2xl  group border-y flex items-center justify-center"
-      >
-        <ChevronsRight className="size-4 text-black group-hover:opacity-75 transition" />
-      </button>
+      <ToolSidebarClose onClick={onClose} />
     </aside>
   );
 };
-
-export default DrawSidebar;

@@ -4,11 +4,15 @@ import { InferRequestType, InferResponseType } from "hono";
 
 import { client } from "@/lib/hono";
 
-type ResponseType = InferResponseType<(typeof client.api.users)["$post"]>;
-type RequestType = InferRequestType<(typeof client.api.users)["$post"]>["json"];
+type ResponseType = InferResponseType<typeof client.api.users["$post"]>;
+type RequestType = InferRequestType<typeof client.api.users["$post"]>["json"];
 
 export const useSignUp = () => {
-  const mutation = useMutation<ResponseType, Error, RequestType>({
+  const mutation = useMutation<
+    ResponseType,
+    Error,
+    RequestType
+  >({
     mutationFn: async (json) => {
       const response = await client.api.users.$post({ json });
 
@@ -20,7 +24,7 @@ export const useSignUp = () => {
     },
     onSuccess: () => {
       toast.success("User created");
-    },
+    }
   });
 
   return mutation;

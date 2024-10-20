@@ -1,98 +1,100 @@
+import { 
+  ActiveTool, 
+  Editor, 
+  STROKE_DASH_ARRAY, 
+  STROKE_WIDTH
+} from "@/features/editor/types";
+import { ToolSidebarClose } from "@/features/editor/components/tool-sidebar-close";
+import { ToolSidebarHeader } from "@/features/editor/components/tool-sidebar-header";
+
 import { cn } from "@/lib/utils";
-import {
-  ActiveTool,
-  editorMethods,
-  STROKE_DASH_ARRAY,
-  STROKE_WIDTH,
-} from "../types";
-import { ChevronsRight } from "lucide-react";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Slider } from "@/components/ui/slider";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-interface StrokeWidthProps {
+interface StrokeWidthSidebarProps {
+  editor: Editor | undefined;
   activeTool: ActiveTool;
   onChangeActiveTool: (tool: ActiveTool) => void;
-  editor: editorMethods | undefined;
-}
+};
 
-const StrokeWidthSidebar = ({
+export const StrokeWidthSidebar = ({
+  editor,
   activeTool,
   onChangeActiveTool,
-  editor,
-}: StrokeWidthProps) => {
-  const stroke_width = editor?.getActiveStrokeWidth() || STROKE_WIDTH;
-
-  const stroke_type = editor?.getActiveStrokeDashArray() || STROKE_DASH_ARRAY;
+}: StrokeWidthSidebarProps) => {
+  const widthValue = editor?.getActiveStrokeWidth() || STROKE_WIDTH;
+  const typeValue = editor?.getActiveStrokeDashArray() || STROKE_DASH_ARRAY;
 
   const onClose = () => {
     onChangeActiveTool("select");
   };
 
-  const onStrokeChange = (value: number) => {
+  const onChangeStrokeWidth = (value: number) => {
     editor?.changeStrokeWidth(value);
   };
 
-  const onStrokeTypeChange = (value: number[]) => {
+  const onChangeStrokeType = (value: number[]) => {
     editor?.changeStrokeDashArray(value);
-  };
+  }
 
   return (
     <aside
       className={cn(
-        "flex flex-col w-[280px] h-full border-r relative z-[40]",
-        activeTool === "stroke-width" ? "visible" : "hidden"
+        "bg-white relative border-r z-[40] w-[360px] h-full flex flex-col",
+        activeTool === "stroke-width" ? "visible" : "hidden",
       )}
     >
-      <header className="h-[62px] p-2 border-b">
-        <p className="font-medium">Stroke options</p>
-        <p className="text-sm text-muted-foreground">Change the stroke width</p>
-      </header>
-
+      <ToolSidebarHeader
+        title="Stroke options"
+        description="Modify the stroke of your element"
+      />
       <ScrollArea>
-        <div className="p-4 space-y-4 border-b ">
-          <Label>Stroke width</Label>
+        <div className="p-4 space-y-4 border-b">
+          <Label className="text-sm">
+            Stroke width
+          </Label>
           <Slider
-            value={[stroke_width]}
-            onValueChange={(values) => onStrokeChange(values[0])}
+            value={[widthValue]}
+            onValueChange={(values) => onChangeStrokeWidth(values[0])}
           />
         </div>
-        <div className="p-4 space-y-4 border-b ">
-          <Label>Stroke type</Label>
+        <div className="p-4 space-y-4 border-b">
+          <Label className="text-sm">
+            Stroke type
+          </Label>
           <Button
+            onClick={() => onChangeStrokeType([])}
             variant="secondary"
+            size="lg"
             className={cn(
-              "w-full",
-              JSON.stringify(stroke_type) === `[]` && "border-2 border-blue-600"
+              "w-full h-16 justify-start text-left",
+              JSON.stringify(typeValue) === `[]` && "border-2 border-blue-500"
             )}
-            onClick={() => onStrokeTypeChange([])}
+            style={{
+              padding: "8px 16px"
+            }}
           >
-            <div className="w-full rounded-full border-black border-[3px]" />
+            <div className="w-full border-black rounded-full border-4" />
           </Button>
-
           <Button
+            onClick={() => onChangeStrokeType([5, 5])}
             variant="secondary"
+            size="lg"
             className={cn(
-              "w-full",
-              JSON.stringify(stroke_type) === `[5,5]` &&
-                "border-2 border-blue-600"
+              "w-full h-16 justify-start text-left",
+              JSON.stringify(typeValue) === `[5,5]` && "border-2 border-blue-500"
             )}
-            onClick={() => onStrokeTypeChange([5, 5])}
+            style={{
+              padding: "8px 16px"
+            }}
           >
-            <div className="w-full rounded-full border-black border-dashed border-[3px]" />
+            <div className="w-full border-black rounded-full border-4 border-dashed" />
           </Button>
         </div>
       </ScrollArea>
-
-      <button
-        onClick={onClose}
-        className="absolute top-1/2 -translate-y-1/2 -right-[1.80rem] w-[30px] h-[50px] bg-white rounded-tr-2xl rounded-br-2xl  group border-y flex items-center justify-center"
-      >
-        <ChevronsRight className="size-4 text-black group-hover:opacity-75 transition" />
-      </button>
+      <ToolSidebarClose onClick={onClose} />
     </aside>
   );
 };
-
-export default StrokeWidthSidebar;

@@ -7,10 +7,6 @@ body {
   height: 100%;
 }
 
-.brd {
-  border: 1px solid red;
-}
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -31,7 +27,7 @@ body {
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 211 25% 30%;
+    --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
 
     --destructive: 0 84.2% 60.2%;
@@ -93,37 +89,4 @@ body {
   box-shadow: none !important;
   border-radius: 0.5rem !important;
   overflow: hidden !important;
-  font-family: "Inter", sans-serif !important;
-}
-
-.navbar {
-  user-select: none;
-  background: #ed4264;
-  background: -webkit-linear-gradient(to right, #ffedbc, #ed4264);
-  background: linear-gradient(to right, #ffedbc, #ed4264);
-}
-
-.sidebar {
-  background: #ffffff;
-  background: -webkit-linear-gradient(to bottom, #eaeaea, #dbdbdb, #f2f2f2);
-  background: linear-gradient(to bottom, #eaeaea, #dbdbdb, #f2f2f2);
-}
-
-.toolbar {
-  background: #ece9e6;
-  border-bottom: 1px solid #d1d1d1;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.footer {
-  background: #ece9e6;
-  border-top: 1px solid #d1d1d1;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
-}
-
-.banner {
-  user-select: none;
-  background: #ed4264;
-  background: -webkit-linear-gradient(to right, #ed4264, #f6e4af);
-  background: linear-gradient(to right, #ed4264, #f6e4af);
 }

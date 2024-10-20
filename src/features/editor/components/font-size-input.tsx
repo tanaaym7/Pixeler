@@ -1,25 +1,25 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Minus, Plus } from "lucide-react";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface FontSizeInputProps {
   value: number;
   onChange: (value: number) => void;
-  min?: number;
-}
+};
 
-const FontSizeInput = ({ value, onChange, min = 1 }: FontSizeInputProps) => {
+export const FontSizeInput = ({
+  value,
+  onChange,
+}: FontSizeInputProps) => {
   const increment = () => onChange(value + 1);
-  const decrement = () => onChange(Math.max(min, value - 1));
+  const decrement = () => onChange(value - 1);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    if (inputValue === "") {
-      onChange(min);
-    } else {
-      const newValue = parseInt(inputValue, 10);
-      onChange(isNaN(newValue) ? min : Math.max(min, newValue));
-    }
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = parseInt(e.target.value, 10);
+    onChange(value);
   };
 
   return (
@@ -35,8 +35,6 @@ const FontSizeInput = ({ value, onChange, min = 1 }: FontSizeInputProps) => {
       <Input
         onChange={handleChange}
         value={value}
-        type="number"
-        min={min}
         className="w-[50px] h-8 focus-visible:ring-offset-0 focus-visible:ring-0 rounded-none"
       />
       <Button
@@ -50,5 +48,3 @@ const FontSizeInput = ({ value, onChange, min = 1 }: FontSizeInputProps) => {
     </div>
   );
 };
-
-export default FontSizeInput;

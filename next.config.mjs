@@ -12,7 +12,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "replicate.delivery",
+        hostname: "replicate.delivery"
       },
     ],
   },
