@@ -5,16 +5,23 @@ import { Minus, Plus } from "lucide-react";
 interface FontSizeInputProps {
   value: number;
   onChange: (value: number) => void;
+  min?: number;
 }
 
-const FontSizeInput = ({ value, onChange }: FontSizeInputProps) => {
+const FontSizeInput = ({ value, onChange, min = 1 }: FontSizeInputProps) => {
   const increment = () => onChange(value + 1);
-  const decrement = () => onChange(value - 1);
+  const decrement = () => onChange(Math.max(min, value - 1));
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    onChange(value);
+    const inputValue = e.target.value;
+    if (inputValue === "") {
+      onChange(min);
+    } else {
+      const newValue = parseInt(inputValue, 10);
+      onChange(isNaN(newValue) ? min : Math.max(min, newValue));
+    }
   };
+
   return (
     <div className="flex items-center">
       <Button
@@ -28,6 +35,8 @@ const FontSizeInput = ({ value, onChange }: FontSizeInputProps) => {
       <Input
         onChange={handleChange}
         value={value}
+        type="number"
+        min={min}
         className="w-[50px] h-8 focus-visible:ring-offset-0 focus-visible:ring-0 rounded-none"
       />
       <Button
